@@ -55,6 +55,65 @@ Verify that the `net.bridge.bridge-nf-call-iptables`, `net.bridge.bridge-nf-call
 
     sysctl net.bridge.bridge-nf-call-iptables net.bridge.bridge-nf-call-ip6tables net.ipv4.ip_forward
 
+## Install containerd
+
+>In this tutorial, I will choose the latest version when writing this doc. You can go to the release links and select the difference version as you want.
+
+#### Getting the official binaries
+Download the `containerd-<VERSION>-<OS>-<ARCH>.tar.gz` archive from https://github.com/containerd/containerd/releases , verify its sha256sum, and extract it under `/usr/local`.
+
+    wget -c https://github.com/containerd/containerd/releases/download/v1.7.0/containerd-1.7.0-linux-amd64.tar.gz
+    wget -c https://github.com/containerd/containerd/releases/download/v1.7.0/containerd-1.7.0-linux-amd64.tar.gz.sha256sum
+
+    # verify the integrity of downloaded file
+    sha256sum containerd-1.7.0-linux-amd64.tar.gz
+
+And extract it under `/usr/local`:
+
+    $ tar Cxzvf /usr/local containerd-1.6.2-linux-amd64.tar.gz
+
+The `containerd` binary is built dynamically for glibc-based Linux distributions such as Ubuntu and Rocky Linux. This binary may not work on musl-based distributions such as Alpine Linux. Users of such distributions may have to install containerd from the source or a third party package.
+
+#### Installing runc
+
+Download the `runc.<ARCH>` binary from https://github.com/opencontainers/runc/releases , verify its sha256sum:
+
+    wget -c https://github.com/opencontainers/runc/releases/download/v1.1.4/libseccomp-2.5.4.tar.gz
+    wget -c https://github.com/opencontainers/runc/releases/download/v1.1.4/libseccomp-2.5.4.tar.gz.asc
+
+    # verify the integrity of downloaded file
+    sha256sum libseccomp-2.5.4.tar.gz
+
+and install it as `/usr/local/sbin/runc`:
+
+    $ install -m 755 runc.amd64 /usr/local/sbin/runc
+
+The binary is built statically and should work on any Linux distribution.
+
+#### Installing CNI plugins
+
+Download the `cni-plugins-<OS>-<ARCH>-<VERSION>.tgz` archive from https://github.com/containernetworking/plugins/releases , verify its sha256sum:
+
+    wget -c https://github.com/containernetworking/plugins/releases/download/v1.2.0/cni-plugins-linux-amd64-v1.2.0.tgz
+    wget -c https://github.com/containernetworking/plugins/releases/download/v1.2.0/cni-plugins-linux-amd64-v1.2.0.tgz.sha256
+
+    # verify the integrity of downloaded file
+    sha256sum cni-plugins-linux-amd64-v1.2.0.tgz.sha256
+
+and extract it under `/opt/cni/bin`:
+
+    $ mkdir -p /opt/cni/bin
+    $ tar Cxzvf /opt/cni/bin cni-plugins-linux-amd64-v1.1.1.tgz
+
+#### Alternative options from `apt-get` or `dnf`
+
+The `containerd.io` packages in DEB and RPM formats are distributed by Docker (not by the containerd project). See the [Docker documentation](https://docs.docker.com/desktop/install/linux-install/) for how to set up apt-get or dnf to install `containerd.io` packages.
+
+**The `containerd.io` package contains runc too, but does not contain CNI plugins.**
+
+>You need CNI (Container Network Interface) plugins for Kubernetes.
+CNI is a standard interface for configuring networking for Linux containers. It enables a wide range of networking options, including overlay networks, load balancing, and security policies, to be used with containerized applications. Kubernetes uses CNI plugins to provide network connectivity between the pods running on the cluster. 
+
 ## Cgroup drivers
 
 On Linux, [control groups](https://docs.kernel.org/admin-guide/cgroup-v1/cgroups.html) are used to constrain resources that are allocated to processes.
@@ -63,10 +122,30 @@ Both kubelet and the underlying container runtime need to interface with control
 
 There are two cgroup drivers available:
 
-* cgroupfs
-* systemd
+* **cgroupfs**
+* **systemd**
+
+Since our virtual machine use **systemd**, we will configure `kubelet` and `container runtime` use **systemd** as their `cgroup driver`.
 
 
+>Depending on the distribution and version, you may see the difference `cgroup driver`. To show the current `cgroup driver` type in Linux, you can check the value of the cgroup mount point by type the following command: `cat /proc/mounts | grep cgroup`
 
-## Remote to virtual machine with Vagrant
+#### Configuring the `containerd` cgroup driver
 
+To use the **systemd** cgroup driver in `/etc/containerd/config.toml` with `runc`, set
+
+    [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
+        [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
+            SystemdCgroup = true
+
+>To avoid unaware configuration, delete all the exist context and replace by configuration at above.
+
+Make sure to restart containerd after setting:
+
+    sudo systemctl restart containerd
+
+#### Configuring the `kubelet` cgroup driver
+
+In v1.22, if the user is not setting the `cgroupDriver` field under `KubeletConfiguration`, `kubeadm` will default it to **systemd**. 
+So in this tutorial we don't need to config `cgroup driver` for `kubelet` cause we will use `kubeadm` to bootstraping cluster tool in the next few steps.
+You can see [here](https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/configure-cgroup-driver/#configuring-the-kubelet-cgroup-driver) for more configuring information.
