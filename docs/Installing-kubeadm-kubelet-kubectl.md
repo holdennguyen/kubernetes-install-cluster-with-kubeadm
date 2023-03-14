@@ -3,6 +3,8 @@
 <img src="https://d33wubrfki0l68.cloudfront.net/e4a8ddb49f07de8b2c2dbbfc7c9bedcfe0816701/600b1/images/kubeadm-stacked-color.png" width="50" height="50">
 </p>
 
+*Performing this task on all virtual machines*
+
 `Kubeadm` is a command-line tool for bootstrapping a `Kubernetes cluster`. It is part of the official `Kubernetes distribution` and is designed to simplify the process of setting up a new `Kubernetes cluster`. `Kubeadm` automates many of the tasks involved in setting up a cluster, such as configuring the `control plane components`, generating `TLS certificates`, and setting up the `Kubernetes networking`.
 
 >One of the key areas covered in the `Certified Kubernetes Administrator (CKA)` exam is cluster setup, which includes using tools like Kubeadm to bootstrap a new Kubernetes cluster.

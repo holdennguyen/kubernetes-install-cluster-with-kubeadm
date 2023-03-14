@@ -61,13 +61,13 @@ We will build our virtual environment from `Vagrantfile`. Clone this repo or jus
 
     # Provision Control Plane
     (1..NUM_MASTER_NODE).each do |i|
-        config.vm.define "controlplane" do |node|
+        config.vm.define "kubemaster" do |node|
             node.vm.provider "virtualbox" do |vb|
-                vb.name = "controlplane"
+                vb.name = "kubemaster"
                 vb.memory = 2048
                 vb.cpus = 2
             end
-            node.vm.hostname = "controlplane"
+            node.vm.hostname = "kubemaster"
             node.vm.network :private_network, ip: IP_NW + "#{MASTER_IP_START + i}"
         end
     end
@@ -75,13 +75,13 @@ We will build our virtual environment from `Vagrantfile`. Clone this repo or jus
 
     # Provision Nodes
     (1..NUM_WORKER_NODE).each do |i|
-        config.vm.define "node0#{i}" do |node|
+        config.vm.define "kubenode0#{i}" do |node|
             node.vm.provider "virtualbox" do |vb|
-                vb.name = "node0#{i}"
+                vb.name = "kubenode0#{i}"
                 vb.memory = 2048
                 vb.cpus = 2
             end
-            node.vm.hostname = "node0#{i}"
+            node.vm.hostname = "kubenode0#{i}"
             node.vm.network :private_network, ip: IP_NW + "#{NODE_IP_START + i}"
         end
     end

@@ -3,6 +3,8 @@
 <img src="https://containerd.io/img/logos/icon/black/containerd-icon-black.png" width="50" >
 </p>
 
+*Performing this task on all virtual machines*
+
 > Note: Dockershim has been removed from the Kubernetes project as of release 1.24. Read the [Dockershim Removal FAQ](https://kubernetes.io/blog/2022/02/17/dockershim-faq/) for further details.
 
 > Dockershim is a component of Kubernetes that was used to communicate with the Docker runtime. It was introduce as a temporary solution to allow Kubernetes to use Docker as a container runtime, before Kubernetes had its own `container runtime interface (CRI)`.
