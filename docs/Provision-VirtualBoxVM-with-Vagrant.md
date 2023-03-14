@@ -13,8 +13,7 @@ For the quick-start, we'll bring up a development machine on VirtualBox because 
 First, download and install the [VirtualBox](https://www.virtualbox.org/wiki/Download_Old_Builds) and [Vagrant](https://www.vagrantup.com/downloads.html) on your host.
 
 We will build our virtual environment from Vagrantfile. Clone this repo or just copy this [Vagrantfile](../Vagrantfile) to your current directory.
-
-<iframe src="https://gist.github.com/holdennguyen/78ddd9c3329a5be8c713f9e1de82e640.js"></iframe>
+<script src="https://gist.github.com/holdennguyen/78ddd9c3329a5be8c713f9e1de82e640.js"></script>
 
 In this Vagrantfile, we simply specify: 
 - Number of virtual machines: `NUM_MASTER_NODE`, `NUM_WORKER_NODE`
