@@ -132,8 +132,9 @@ Since our virtual machine use **systemd**, we will configure `kubelet` and `cont
 
 #### Configuring the `containerd` cgroup driver
 
-To start `containerd` via **systemd**, download the `containerd.service` unit file from https://raw.githubusercontent.com/containerd/containerd/main/containerd.service into `/usr/local/lib/systemd/system/containerd.service`
+To start `containerd` via **systemd**, download the `containerd.service` unit file from https://raw.githubusercontent.com/containerd/containerd/main/containerd.service into `/usr/local/lib/systemd/system/`
 
+    sudo wget -P /usr/local/lib/systemd/system/ https://raw.githubusercontent.com/containerd/containerd/main/containerd.service
 
 and run the following commands:
 
