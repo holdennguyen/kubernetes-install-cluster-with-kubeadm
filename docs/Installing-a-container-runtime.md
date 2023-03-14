@@ -70,7 +70,7 @@ Download the `containerd-<VERSION>-<OS>-<ARCH>.tar.gz` archive from https://gith
 
 And extract it under `/usr/local`:
 
-    tar Cxzvf /usr/local containerd-1.7.0-linux-amd64.tar.gz
+    sudo tar Cxzvf /usr/local containerd-1.7.0-linux-amd64.tar.gz
 
 The `containerd` binary is built dynamically for glibc-based Linux distributions such as Ubuntu and Rocky Linux. This binary may not work on musl-based distributions such as Alpine Linux. Users of such distributions may have to install containerd from the source or a third party package.
 
