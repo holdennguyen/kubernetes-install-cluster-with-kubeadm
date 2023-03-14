@@ -63,7 +63,7 @@ Verify that the `net.bridge.bridge-nf-call-iptables`, `net.bridge.bridge-nf-call
 >In this tutorial, I will choose the latest version when writing this doc. You can go to the release links and select the difference version as you want.
 
 #### Getting the official binaries
-Download the `containerd-<VERSION>-<OS>-<ARCH>.tar.gz` archive from https://github.com/containerd/containerd/releases , verify its sha256sum, and extract it under `/usr/local`.
+Download the `containerd-<VERSION>-<OS>-<ARCH>.tar.gz` archive from https://github.com/containerd/containerd/releases , verify its sha256sum:
 
     wget -c https://github.com/containerd/containerd/releases/download/v1.7.0/containerd-1.7.0-linux-amd64.tar.gz
     wget -c https://github.com/containerd/containerd/releases/download/v1.7.0/containerd-1.7.0-linux-amd64.tar.gz.sha256sum

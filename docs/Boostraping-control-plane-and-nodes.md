@@ -1,6 +1,6 @@
-# Kubernetes Cluster with Containerd
+# Boostraping control plane and nodes
 <p align="left">
-<img src="https://d33wubrfki0l68.cloudfront.net/e4a8ddb49f07de8b2c2dbbfc7c9bedcfe0816701/600b1/images/kubeadm-stacked-color.png" width="50" height="50">
+<img src="https://kubernetes.io/images/favicon.png" width="50" height="50">
 </p>
 
 `Kubeadm` is a command-line tool for bootstrapping a `Kubernetes cluster`. It is part of the official `Kubernetes distribution` and is designed to simplify the process of setting up a new `Kubernetes cluster`. `Kubeadm` automates many of the tasks involved in setting up a cluster, such as configuring the `control plane components`, generating `TLS certificates`, and setting up the `Kubernetes networking`.
@@ -21,13 +21,15 @@ To disable `swap` on Linux Machines:
 
 ### Installing kubeadm, kubelet and kubectl :
 
+![Components of kubernetes](images/components-of-kubernetes.svg)
+
 You will install these packages on all of your machines:
 
 * `kubelet`: the component that runs on all of the machines in your cluster and does things like starting pods and containers.
 
 * `kubectl`: the command line util to talk to your cluster.
 
-* `kubeadm`: the command to bootstrap the cluster. (install the rest components for `kubernetes cluster`)
+* `kubeadm`: the command to bootstrap the cluster. (install the rest components for you)
 
 `kubeadm` will not install or manage `kubelet` or `kubectl` for you, so you will need to ensure they match the version of the `Kubernetes control plane` you want `kubeadm` to install for you.
 
