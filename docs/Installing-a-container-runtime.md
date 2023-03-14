@@ -10,7 +10,7 @@ You need to install a container runtime into each node in the cluster so that Po
 * [Docker Engine](https://docs.docker.com/engine/)
 * [Mirantis Container Runtime](https://docs.mirantis.com/mcr/20.10/overview.html)
 
-You can find the instructions for each type [here](https://kubernetes.io/docs/setup/production-environment/container-runtimes/#cri-versions). In this tutorial we will use `containerd`.
+You can find the instructions for each type [here](https://kubernetes.io/docs/setup/production-environment/container-runtimes/#cri-versions). In this tutorial we will use <span><a href="https://kubernetes.io/"><img src="https://img.shields.io/badge/-containerd-575757?logo=containerd&logoColor=white" alt="containerd"></a></span>.
 
 ## Install and configure prerequistes
 
