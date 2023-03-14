@@ -132,17 +132,13 @@ Since our virtual machine use **systemd**, we will configure `kubelet` and `cont
 
 #### Configuring the `containerd` cgroup driver
 
-To use the **systemd** cgroup driver in `/etc/containerd/config.toml` with `runc`, set
+To start `containerd` via **systemd**, download the `containerd.service` unit file from https://raw.githubusercontent.com/containerd/containerd/main/containerd.service into `/usr/local/lib/systemd/system/containerd.service`
 
-    [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
-        [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
-            SystemdCgroup = true
 
->To avoid unaware configuration, delete all the exist context and replace by configuration at above.
+and run the following commands:
 
-Make sure to restart containerd after setting:
-
-    sudo systemctl restart containerd
+    systemctl daemon-reload
+    systemctl enable --now containerd
 
 #### Configuring the `kubelet` cgroup driver
 

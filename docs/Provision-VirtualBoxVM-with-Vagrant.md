@@ -4,15 +4,15 @@
 - Source: [https://github.com/hashicorp/vagrant](https://github.com/hashicorp/vagrant)
 - HashiCorp Discuss: [https://discuss.hashicorp.com/c/vagrant/24](https://discuss.hashicorp.com/c/vagrant/24)
 
-Vagrant is a tool for creating and managing virtual machine environments. It is often considered a form of Infrastructure as Code (IaC), as it allows us to define and manage our infrastructure using code. However, it is important to note that Vagrant is primarily a tool for managing virtual machine environments, and is not typically used for managing production infrastructure.
+`Vagrant` is a tool for creating and managing virtual machine environments. It is often considered a form of `Infrastructure as Code (IaC)`, as it allows us to define and manage our infrastructure using code. However, it is important to note that Vagrant is primarily a tool for managing virtual machine environments, and is not typically used for managing production infrastructure.
 
 ## Quick Start
 
-For the quick-start, we'll bring up a development machine on VirtualBox because it is free and works on all major platforms.
+For the quick-start, we'll bring up a development machine on `VirtualBox` because it is free and works on all major platforms.
 
 First, download and install the [VirtualBox](https://www.virtualbox.org/wiki/Download_Old_Builds) and [Vagrant](https://www.vagrantup.com/downloads.html) on your host.
 
-We will build our virtual environment from Vagrantfile. Clone this repo or just copy this [Vagrantfile](../Vagrantfile) to your current directory.
+We will build our virtual environment from `Vagrantfile`. Clone this repo or just copy this [Vagrantfile](../Vagrantfile) to your current directory.
 
     # -*- mode: ruby -*-
     # vi:set ft=ruby sw=2 ts=2 sts=2:
@@ -103,7 +103,7 @@ Run the command:
 
     vagrant up
 
-Note: If you're using Windows and already have Hyper-V, you must [disable Hyper-V](https://learn.microsoft.com/en-us/troubleshoot/windows-client/application-management/virtualization-apps-not-work-with-hyper-v) to avoid conflict with Virtual Box.
+Note: If you're using `Windows` and already have `Hyper-V`, you must [disable Hyper-V](https://learn.microsoft.com/en-us/troubleshoot/windows-client/application-management/virtualization-apps-not-work-with-hyper-v) to avoid conflict with `Virtual Box`. You might have to reinstall `Vagrant` & `Virtual Box` if still facing the error after disable `Hyper-V`.
 
 ![Vagrant up output](images/vagrant-up.png)
 
@@ -121,7 +121,7 @@ Just run the commands:
 
 ![Vagrant SSH in VSCode](images/vagrant-ssh-vscode.png)
 
-As you can see in the output of `vagrant up`, Vagrant had fowarded port 22 and generated keypairs for each machine without ssh configuration in Vagrantfile. 
+As you can see in the output of `vagrant up`, Vagrant had fowarded port 22 and generated keypairs for each machine without ssh configuration in `Vagrantfile`. 
 For more information you can see [Vagrant Share: SSH Sharing](https://developer.hashicorp.com/vagrant/docs/share/ssh) and [Vagrantfile: config.ssh](https://developer.hashicorp.com/vagrant/docs/vagrantfile/ssh_settings).
 
 Then you're good to go!
