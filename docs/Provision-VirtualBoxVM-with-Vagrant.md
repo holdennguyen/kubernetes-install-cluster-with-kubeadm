@@ -14,7 +14,7 @@ First, download and install the [VirtualBox](https://www.virtualbox.org/wiki/Dow
 
 We will build our virtual environment from Vagrantfile. Clone this repo or just copy this [Vagrantfile](../Vagrantfile) to your current directory.
 
-<script src="https://gist.github.com/holdennguyen/78ddd9c3329a5be8c713f9e1de82e640.js"></script>
+<iframe src="https://gist.github.com/holdennguyen/78ddd9c3329a5be8c713f9e1de82e640.js"></iframe>
 
 In this Vagrantfile, we simply specify: 
 - Number of virtual machines: `NUM_MASTER_NODE`, `NUM_WORKER_NODE`
