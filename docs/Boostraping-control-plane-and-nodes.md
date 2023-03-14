@@ -7,11 +7,11 @@
 
 ![Components of kubernetes](images/components-of-kubernetes.svg)
 
-### Initializing your control-plane node
+### Initializing your control plane
 
-The `control-plane node` is the machine where the control plane components run, including `etcd` (the cluster database) and the `API Server` (which the `kubectl` command line tool communicates with).
+The `control plane` is the machine where the control plane components run, including `etcd` (the cluster database) and the `API Server` (which the `kubectl` command line tool communicates with).
 
-To initialize the control-plane node, run this command in your virtual machine hostname `kubemaster`:
+To initialize the control plane, run this command in your virtual machine hostname `kubemaster`:
 
     sudo kubeadm init --apiserver-advertise-address=192.168.56.2 --pod-network-cidr=10.244.0.0/16
  
@@ -97,5 +97,137 @@ The output is similar to:
 
 **`<control-plane-host>:<control-plane-port>`** will be **`192.168.56.2:6443`**
 
+**Node join to Kubernetes cluster successful**
+
+The output should look something like:
+
+    [preflight] Running pre-flight checks
+
+    ... (log output of join workflow) ...
+
+    Node join complete:
+    * Certificate signing request sent to control-plane and response
+    received.
+    * Kubelet informed of new secure connection details.
+
+    Run 'kubectl get nodes' on control-plane to see this machine join.
+
+A few seconds later, you should notice this node in the output from kubectl get nodes when run on the control-plane node.
+
+### Verify Kubernetes cluster components
+
+On control-plane `kubemaster` and worker nodes `kubenode01`, `kubenode02` run
+
+    sudo netstat -lntp
+
+All components with LISTEN ports will be shown as below:
+
+**kubemaster** 
+
+    Active Internet connections (only servers)
+    Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
+    tcp        0      0 127.0.0.1:10248         0.0.0.0:*               LISTEN      8013/kubelet
+    tcp        0      0 127.0.0.1:10249         0.0.0.0:*               LISTEN      8182/kube-proxy
+    tcp        0      0 192.168.56.2:2379       0.0.0.0:*               LISTEN      7811/etcd
+    tcp        0      0 127.0.0.1:2379          0.0.0.0:*               LISTEN      7811/etcd
+    tcp        0      0 192.168.56.2:2380       0.0.0.0:*               LISTEN      7811/etcd
+    tcp        0      0 127.0.0.1:2381          0.0.0.0:*               LISTEN      7811/etcd
+    tcp        0      0 127.0.0.1:10257         0.0.0.0:*               LISTEN      7791/kube-controlle
+    tcp        0      0 127.0.0.1:10259         0.0.0.0:*               LISTEN      7907/kube-scheduler
+    tcp        0      0 127.0.0.1:34677         0.0.0.0:*               LISTEN      2826/containerd
+    tcp        0      0 127.0.0.53:53           0.0.0.0:*               LISTEN      817/systemd-resolve
+    tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      1380/sshd
+    tcp6       0      0 :::10250                :::*                    LISTEN      8013/kubelet
+    tcp6       0      0 :::6443                 :::*                    LISTEN      7884/kube-apiserver
+    tcp6       0      0 :::10256                :::*                    LISTEN      8182/kube-proxy
+    tcp6       0      0 :::22                   :::*                    LISTEN      1380/sshd
+
+>`kube-apiserver` show that it only LISTEN on IPv6 `:::6443` but actually the API server is listening on an IPv6 address that can be accessed through an `IPv4-mapped IPv6 address`. That why we can run `kubeadm join` on worker nodes succesfully. 
+For example, the IPv4 address `192.168.5.2` can be represented as the IPv6 address `::ffff:192.168.5.2`.
+
+**kubenode***
+
+    Active Internet connections (only servers)
+    Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name    
+    tcp        0      0 127.0.0.1:10248         0.0.0.0:*               LISTEN      8987/kubelet        
+    tcp        0      0 127.0.0.1:10249         0.0.0.0:*               LISTEN      9208/kube-proxy     
+    tcp        0      0 127.0.0.1:39989         0.0.0.0:*               LISTEN      2785/containerd     
+    tcp        0      0 127.0.0.53:53           0.0.0.0:*               LISTEN      782/systemd-resolve 
+    tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      1431/sshd
+    tcp6       0      0 :::10250                :::*                    LISTEN      8987/kubelet        
+    tcp6       0      0 :::10256                :::*                    LISTEN      9208/kube-proxy     
+    tcp6       0      0 :::22                   :::*                    LISTEN      1431/sshd
+
 ### Installing a Pod network add-on
 
+Run `kubectl get nodes` on control-plane to see this joined nodes
+
+    NAME           STATUS     ROLES           AGE    VERSION
+    kubemaster     NotReady   control-plane   3h1m   v1.26.2
+    kubenode01     NotReady   <none>          3h     v1.26.2
+    kubenode02     NotReady   <none>          179m   v1.26.2
+
+As you can see, our virtual machine `kubemaster`, `kubenode01`, `kubenode02` were joined the Kubernetes cluster but they are `NotReady`. 
+
+Run `kubectl get pods -A` on control plane to see all pods of `kube-system`
+
+    NAMESPACE     NAME                                   READY   STATUS    RESTARTS   AGE
+    kube-system   coredns-787d4945fb-5cwlq               0/1     Pending   0          3h8m
+    kube-system   coredns-787d4945fb-q2s4p               0/1     Pending   0          3h8m
+    kube-system   etcd-controlplane                      1/1     Running   0          3h8m
+    kube-system   kube-apiserver-controlplane            1/1     Running   0          3h8m
+    kube-system   kube-controller-manager-controlplane   1/1     Running   1          3h8m
+    kube-system   kube-proxy-7twwr                       1/1     Running   0          3h7m
+    kube-system   kube-proxy-8mxt7                       1/1     Running   0          3h8m
+    kube-system   kube-proxy-v9rc6                       1/1     Running   0          3h8m
+    kube-system   kube-scheduler-controlplane            1/1     Running   1          3h9m
+
+You must deploy a `Container Network Interface (CNI)` based `Pod network add-on` so that your Pods can communicate with each other. `Cluster DNS (CoreDNS)` will not start up before a network is installed.
+
+>The installed [CNI plugin](/docs/Installing-a-container-runtime.md/#installing-cni-plugins) in task installing `containerd` are responsible for configuring the networking for containers. 
+
+`Pod network add-ons` are `Kubernetes-specific CNI plugins` that provide **network connectivity between pods** in a `Kubernetes cluster`. They create a `virtual network overlay` that spans the entire cluster and provides each `pod` with its own `unique IP address`.
+
+While `CNI plugins` can be used with any container runtime, pod network add-ons are specific to Kubernetes and provide the networking functionality required for the Kubernetes networking model. Some examples of pod network add-ons include `Calico`, `Flannel`, and `Weave Net`.
+
+In this tutorial, we will use [Weave Net](https://www.weave.works/docs/net/latest/kubernetes/kube-addon/) add-ons. It is easier to set up, use and is a good fit for smaller-scale deployments.
+
+To install onto Kubernetes cluster, run the following command on control plane `kubemaster`:
+
+    kubectl apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s.yaml
+
+Output will be
+
+    serviceaccount/weave-net created
+    clusterrole.rbac.authorization.k8s.io/weave-net created
+    clusterrolebinding.rbac.authorization.k8s.io/weave-net created
+    role.rbac.authorization.k8s.io/weave-net created
+    rolebinding.rbac.authorization.k8s.io/weave-net created
+    daemonset.apps/weave-net created
+
+>Before installing `Weave Net`, you should make sure the following ports are not blocked by your firewall: `TCP 6783` and `UDP 6783/6784`. For more details, see the [FAQ](https://www.weave.works/docs/net/latest/faq/#ports).
+
+Take care that your Pod network must not overlap with any of the machine networks. If you define a `CIDR block` during `kubeadm init` with `--pod-network-cidr`, insert parameter `IPALLOC_RANGE` in `Weaver network plugin's YAML`.
+Run this command on control plane `kubemaster`:
+
+    kubectl edit ds weave-net -n kube-system
+
+It will open allow you to edit the yaml file of weave-net deployment, enter edit mode by press `i`. Find spec of `container` name `weave` to add environment variable `IPALLOC_RANGE`, value is `--pod-network-cidr`
+
+      containers:
+        - name: weave
+          env:
+            - name: IPALLOC_RANGE
+              value: 10.244.0.0/16
+
+Save file and wait few minutes for `weave-net` pods rebooting.
+
+Run `kubectl get pods -A` on control plane again to verify:
+
+*I'm facing with an issue about weave-net pods failed 2/3, I need to sleep... See you tomorrow yah*
+
+
+
+
+
+Networking is a central part of Kubernetes, see [Kubernetes networking model](https://kubernetes.io/docs/concepts/cluster-administration/networking/#how-to-implement-the-kubernetes-networking-model) for more information.
