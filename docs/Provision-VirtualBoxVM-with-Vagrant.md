@@ -1,3 +1,5 @@
+```html
+
 # Vagrant
 
 - Website: [https://www.vagrantup.com/](https://www.vagrantup.com/)
