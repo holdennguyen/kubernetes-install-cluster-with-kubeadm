@@ -78,11 +78,11 @@ The `containerd` binary is built dynamically for glibc-based Linux distributions
 
 Download the `runc.<ARCH>` binary from https://github.com/opencontainers/runc/releases , verify its sha256sum:
 
-    wget -c https://github.com/opencontainers/runc/releases/download/v1.1.4/libseccomp-2.5.4.tar.gz
-    wget -c https://github.com/opencontainers/runc/releases/download/v1.1.4/libseccomp-2.5.4.tar.gz.asc
+    wget -c https://github.com/opencontainers/runc/releases/download/v1.1.4/runc.amd64
+    wget -c https://github.com/opencontainers/runc/releases/download/v1.1.4/runc.amd64.asc
 
     # verify the integrity of downloaded file
-    sha256sum libseccomp-2.5.4.tar.gz
+    sha256sum runc.amd64
 
 and install it as `/usr/local/sbin/runc`:
 
