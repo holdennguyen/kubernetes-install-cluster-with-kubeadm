@@ -118,7 +118,7 @@ and extract it under `/opt/cni/bin`:
 
 #### Alternative options from `apt-get` or `dnf`
 
-The `containerd.io` packages in DEB and RPM formats are distributed by Docker (not by the containerd project). See the [Docker documentation](https://docs.docker.com/desktop/install/linux-install/) for how to set up apt-get or dnf to install `containerd.io` packages.
+The `containerd.io` packages in DEB and RPM formats are distributed by Docker (not by the containerd project). See the [Docker documentation](https://docs.docker.com/engine/install/ubuntu/) for how to set up apt-get or dnf to install `containerd.io` packages.
 
 **The `containerd.io` package contains runc too, but does not contain CNI plugins.**
 
