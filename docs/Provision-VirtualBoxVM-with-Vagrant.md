@@ -111,7 +111,9 @@ You can verify our provisioning VM by command:
 
 ![Vagrant status](images/vagrant-status.png)
 
-Note: If you're using `Windows` and already have `Hyper-V`, you must disable Hyper-V to avoid conflict with `Virtual Box` which could lead to `vagrant up` time out. 
+#### Issue: vagrant up times out on 'default: SSH auth method: private key' 
+
+If you're using `Windows` and already have `Hyper-V`, you must disable Hyper-V to avoid conflict with `Virtual Box` which could lead to `vagrant up` time out. 
 
 To disable `Hyper-V` completely, enter the following command:
 
@@ -121,7 +123,7 @@ followed by system restart.
 
 >Note that `bcdedit` is short for `boot configuration data edit`, i.e. it affects what software will be loaded on the next OS boot, so it is essential that you perform a full boot from a complete power down (not a suspend and restart) in order for the changes to take effect. Leave the PC powered down for `10 seconds` before starting it again. If your PC does not offer a full shutdown from the start menu you could try running `shutdown /p` from an admin command prompt. On a laptop you may have to remove the battery.
 
-You might have to reinstall `Vagrant` & `Virtual Box` if still facing the error after disable `Hyper-V`.
+Reinstall `Vagrant` & `Virtual Box`. If issue is still exist, you might have to reinstall `Windows OS`!
 
 ## Remote to virtual machine with Vagrant
 
