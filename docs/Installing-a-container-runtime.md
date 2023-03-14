@@ -86,7 +86,7 @@ Download the `runc.<ARCH>` binary from https://github.com/opencontainers/runc/re
 
 and install it as `/usr/local/sbin/runc`:
 
-    install -m 755 runc.amd64 /usr/local/sbin/runc
+    sudo install -m 755 runc.amd64 /usr/local/sbin/runc
 
 The binary is built statically and should work on any Linux distribution.
 
