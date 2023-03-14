@@ -13,6 +13,8 @@
 
 You must disable `swap` in order for the `kubelet` to work properly. The discussion about this is in this issue https://github.com/kubernetes/kubernetes/issues/53533
 
+`Kubelet`, which is the primary node agent that runs on each worker node, assumes that each node has a fixed amount of available memory. If the node starts swapping, the kubelet may experience delays or other issues that can impact the `stability` and `reliability` of the Kubernetes cluster. As a result, Kubernetes recommends that `swap` be **disabled** on each node in the cluster.
+
 To disable `swap` on Linux Machines:
 
     # First diasbale swap

@@ -11,4 +11,8 @@
 
 The `control-plane node` is the machine where the control plane components run, including `etcd` (the cluster database) and the `API Server` (which the `kubectl` command line tool communicates with).
 
-In your virtual machine hostname `kubemaster`, run 
+To initialize the control-plane node, run this command in your virtual machine hostname `kubemaster`:
+
+    kubeadm init --apiserver-advertise-address=192.168.56.2 --pod-network-cidr=10.244.0.0/16
+
+
