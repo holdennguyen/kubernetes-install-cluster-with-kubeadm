@@ -10,7 +10,7 @@ You need to install a container runtime into each node in the cluster so that Po
 * [Docker Engine](https://docs.docker.com/engine/)
 * [Mirantis Container Runtime](https://docs.mirantis.com/mcr/20.10/overview.html)
 
-You can find the instructions for each type [here](https://kubernetes.io/docs/setup/production-environment/container-runtimes/#cri-versions). In this tutorial we will use <span><a href="https://kubernetes.io/"><img src="https://img.shields.io/badge/-containerd-575757?logo=containerd&logoColor=white" alt="containerd"></a></span>.
+You can find the instructions for each type [here](https://kubernetes.io/docs/setup/production-environment/container-runtimes/). In this tutorial we will use <span><a href="https://github.com/containerd/containerd/blob/main/docs/getting-started.md"><img src="https://img.shields.io/badge/-containerd-575757?logo=containerd&logoColor=white" alt="containerd"></a></span>.
 
 ## Install and configure prerequistes
 
@@ -72,6 +72,8 @@ And extract it under `/usr/local`:
 
     sudo tar Cxzvf /usr/local containerd-1.7.0-linux-amd64.tar.gz
 
+![output](images/containerd-binaries-output.png)
+
 The `containerd` binary is built dynamically for glibc-based Linux distributions such as Ubuntu and Rocky Linux. This binary may not work on musl-based distributions such as Alpine Linux. Users of such distributions may have to install containerd from the source or a third party package.
 
 #### Installing runc
@@ -104,6 +106,8 @@ and extract it under `/opt/cni/bin`:
 
     sudo mkdir -p /opt/cni/bin
     sudo tar Cxzvf /opt/cni/bin cni-plugins-linux-amd64-v1.2.0.tgz
+
+![output](images/cni-plugins-output.png)
 
 #### Alternative options from `apt-get` or `dnf`
 
