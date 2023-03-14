@@ -13,7 +13,7 @@ The `control-plane node` is the machine where the control plane components run, 
 
 To initialize the control-plane node, run this command in your virtual machine hostname `kubemaster`:
 
-    kubeadm init
+    sudo kubeadm init
 
 Some options of `kubeadm init` 
 * `--apiserver-advertise-address=<string>`: The IP address the API Server will advertise it's listening on. If not set the default network interface will be used, in this tutorial it will be IP address of `kubemaster` vm. (When our cluster have more than one `control plane node`, this option will help to specify which `control plane node` listen to our `kubectl`)
