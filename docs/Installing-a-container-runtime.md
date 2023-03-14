@@ -102,8 +102,8 @@ Download the `cni-plugins-<OS>-<ARCH>-<VERSION>.tgz` archive from https://github
 
 and extract it under `/opt/cni/bin`:
 
-    mkdir -p /opt/cni/bin
-    tar Cxzvf /opt/cni/bin cni-plugins-linux-amd64-v1.2.0.tgz
+    sudo mkdir -p /opt/cni/bin
+    sudo tar Cxzvf /opt/cni/bin cni-plugins-linux-amd64-v1.2.0.tgz
 
 #### Alternative options from `apt-get` or `dnf`
 
