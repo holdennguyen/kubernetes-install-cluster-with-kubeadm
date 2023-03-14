@@ -138,8 +138,8 @@ To start `containerd` via **systemd**, download the `containerd.service` unit fi
 
 and run the following commands:
 
-    systemctl daemon-reload
-    systemctl enable --now containerd
+    sudo systemctl daemon-reload
+    sudo systemctl enable --now containerd
 
 #### Configuring the `kubelet` cgroup driver
 
