@@ -1,16 +1,19 @@
 # Container Runtimes
+<p align="left">
+<img src="https://containerd.io/img/logos/icon/black/containerd-icon-black.png" width="50" >
+</p>
 
 > Note: Dockershim has been removed from the Kubernetes project as of release 1.24. Read the [Dockershim Removal FAQ](https://kubernetes.io/blog/2022/02/17/dockershim-faq/) for further details.
 
-> Dockershim is a component of Kubernetes that was used to communicate with the Docker runtime. It was introduce as a temporary solution to allow Kubernetes to use Docker as a container runtime, before Kubernetes had its own container runtime interface (CRI).
+> Dockershim is a component of Kubernetes that was used to communicate with the Docker runtime. It was introduce as a temporary solution to allow Kubernetes to use Docker as a container runtime, before Kubernetes had its own `container runtime interface (CRI)`.
 
-You need to install a container runtime into each node in the cluster so that Pods can run there. And Kubernetes 1.26 requires that you use a runtime that conforms with the Container Runtime Interface (CRI). There are several common container runtimes with Kubernetes:
+You need to install a container runtime into each node in the cluster so that Pods can run there. And Kubernetes 1.26 requires that you use a runtime that conforms with the `Container Runtime Interface (CRI)`. There are several common container runtimes with Kubernetes:
 * [containerd](https://containerd.io/)
 * [CRI-O](https://cri-o.io/)
 * [Docker Engine](https://docs.docker.com/engine/)
 * [Mirantis Container Runtime](https://docs.mirantis.com/mcr/20.10/overview.html)
 
-You can find the instructions for each type [here](https://kubernetes.io/docs/setup/production-environment/container-runtimes/). In this tutorial we will use <span><a href="https://github.com/containerd/containerd/blob/main/docs/getting-started.md"><img src="https://img.shields.io/badge/-containerd-575757?logo=containerd&logoColor=white" alt="containerd"></a></span>.
+You can find the instructions for each type [here](https://kubernetes.io/docs/setup/production-environment/container-runtimes/). In this tutorial we will use [**Containerd**](https://github.com/containerd/containerd/blob/main/docs/getting-started.md).
 
 ## Install and configure prerequistes
 
@@ -93,6 +96,8 @@ and install it as `/usr/local/sbin/runc`:
 The binary is built statically and should work on any Linux distribution.
 
 #### Installing CNI plugins
+
+`Container Network Interface (CNI)` is a standard interface for configuring networking for Linux containers. It enables a wide range of networking options, including overlay networks, load balancing, and security policies, to be used with containerized applications. `Kubernetes` uses `CNI plugins` to provide [network connectivity](https://kubernetes.io/docs/concepts/cluster-administration/networking/) between the pods running on the cluster.
 
 Download the `cni-plugins-<OS>-<ARCH>-<VERSION>.tgz` archive from https://github.com/containernetworking/plugins/releases , verify its sha256sum:
 

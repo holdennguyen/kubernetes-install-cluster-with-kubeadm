@@ -48,5 +48,4 @@
 - [ ] [Provision VirtualBox's VM with Vagrant](docs/Provision-VirtualBoxVM-with-Vagrant.md)
 - [ ] [Installing a container runtime (containerd) on all virtual machines](docs/Installing-a-container-runtime.md)
 - [ ] [Installing kubeadm, kubelet and kubectl on all virtual machines](docs/Installing-kubeadm-kubelet-kubectl.md)
-- [ ] [Configuring a cgroup driver on all virtual machines](docs/Configuring-a-cgroup-driver.md)
 - [ ] [Boostraping control plane and node](docs/Configuring-a-cgroup-driver.md)

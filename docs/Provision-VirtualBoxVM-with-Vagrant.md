@@ -103,8 +103,6 @@ Run the command:
 
     vagrant up
 
-Note: If you're using `Windows` and already have `Hyper-V`, you must [disable Hyper-V](https://learn.microsoft.com/en-us/troubleshoot/windows-client/application-management/virtualization-apps-not-work-with-hyper-v) to avoid conflict with `Virtual Box`. You might have to reinstall `Vagrant` & `Virtual Box` if still facing the error after disable `Hyper-V`.
-
 ![Vagrant up output](images/vagrant-up.png)
 
 You can verify our provisioning VM by command:
@@ -112,6 +110,18 @@ You can verify our provisioning VM by command:
     vagrant status
 
 ![Vagrant status](images/vagrant-status.png)
+
+Note: If you're using `Windows` and already have `Hyper-V`, you must disable Hyper-V to avoid conflict with `Virtual Box` which could lead to `vagrant up` time out. 
+
+To disable `Hyper-V` completely, enter the following command:
+
+    bcdedit /set hypervisorlaunchtype off
+
+followed by system restart. 
+
+>Note that `bcdedit` is short for `boot configuration data edit`, i.e. it affects what software will be loaded on the next OS boot, so it is essential that you perform a full boot from a complete power down (not a suspend and restart) in order for the changes to take effect. Leave the PC powered down for `10 seconds` before starting it again. If your PC does not offer a full shutdown from the start menu you could try running `shutdown /p` from an admin command prompt. On a laptop you may have to remove the battery.
+
+You might have to reinstall `Vagrant` & `Virtual Box` if still facing the error after disable `Hyper-V`.
 
 ## Remote to virtual machine with Vagrant
 
