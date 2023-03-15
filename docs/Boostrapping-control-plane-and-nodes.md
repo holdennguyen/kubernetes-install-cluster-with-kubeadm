@@ -7,7 +7,7 @@
 
 ![Components of kubernetes](images/components-of-kubernetes.svg)
 
-### Initializing your control plane
+## Initializing your control plane
 
 The `control plane` is the machine where the control plane components run, including `etcd` (the cluster database) and the `API Server` (which the `kubectl` command line tool communicates with).
 
@@ -52,7 +52,7 @@ Alternatively, if you are the `root user`, you can run:
 >Warning: `Kubeadm` signs the certificate in the `admin.conf` to have `Subject: O = system:masters`, `CN = kubernetes-admin`. 
 `system:masters` is a break-glass, super user group that bypasses the authorization layer (e.g. RBAC). Do not share the `admin.conf` file with anyone and instead grant users custom permissions by generating them a kubeconfig file using the kubeadm kubeconfig user command. For more details see [Generating kubeconfig files for additional users](https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-certs/#kubeconfig-additional-users).
 
-### Joining your nodes
+## Joining your nodes
 
 Run the command that was output by `kubeadm init` on all worker nodes - virtual machine:`kubenode01`, `kubenode02`with sudo permission:
 
@@ -116,7 +116,7 @@ The output should look something like:
 
 A few seconds later, you should notice this node in the output from kubectl get nodes when run on the control-plane node.
 
-### Verify Kubernetes cluster components
+## Verify Kubernetes cluster components
 
 On control-plane `kubemaster` and worker nodes `kubenode01`, `kubenode02` run
 
@@ -160,7 +160,7 @@ For example, the IPv4 address `192.168.5.2` can be represented as the IPv6 addre
     tcp6       0      0 :::10256                :::*                    LISTEN      9208/kube-proxy     
     tcp6       0      0 :::22                   :::*                    LISTEN      1431/sshd
 
-### Installing a Pod network add-on
+## Installing a Pod network add-on
 
 Run `kubectl get nodes` on control-plane to see this joined nodes
 
@@ -229,6 +229,8 @@ It will open allow you to edit the yaml file of `weave-net daemon set`, enter ed
 
 Save file and wait few minutes for `weave-net` pods rebooting.
 
+## Successful 
+
 Run `kubectl get pods -A` on control plane again to verify, you will see 3 pods of `weave-net daemon set` and the `coredns` pods are running now:
 
     NAMESPACE     NAME                                 READY   STATUS    RESTARTS   AGE
@@ -251,5 +253,7 @@ Run `kubectl get nodes` to verify status of cluster, all nodes are ready now:
     kubemaster   Ready    control-plane   9m54s   v1.26.2
     kubenode01   Ready    <none>          6m59s   v1.26.2
     kubenode02   Ready    <none>          6m54s   v1.26.2
+
+>If you see that a worker node has `ROLES` of `<none>`, it means that the node is not running any `control plane components` or Kubernetes services that would give it a specific role. Worker nodes typically do not run any control plane components, so this is perfectly normal and expected behavior for worker nodes in a Kubernetes cluster.
 
 Networking is a central part of Kubernetes, see [Kubernetes networking model](https://kubernetes.io/docs/concepts/cluster-administration/networking/#how-to-implement-the-kubernetes-networking-model) for more information.
