@@ -1,6 +1,6 @@
 # Boostraping control plane and nodes
 <p align="left">
-<img src="https://kubernetes.io/images/favicon.png" width="50" height="50">
+<img src="https://kubernetes.io/images/favicon.png" width="50">
 </p>
 
 >If you have already installed kubeadm long time before, run `apt-get update && apt-get upgrade` to get the latest version of `kubeadm` & `kubelet`.
@@ -257,3 +257,7 @@ Run `kubectl get nodes` to verify status of cluster, all nodes are ready now:
 >If you see that a worker node has `ROLES` of `<none>`, it means that the node is not running any `control plane components` or Kubernetes services that would give it a specific role. Worker nodes typically do not run any control plane components, so this is perfectly normal and expected behavior for worker nodes in a Kubernetes cluster.
 
 Networking is a central part of Kubernetes, see [Kubernetes networking model](https://kubernetes.io/docs/concepts/cluster-administration/networking/#how-to-implement-the-kubernetes-networking-model) for more information.
+
+For more option to customize the cluster with kubeadm, read [Create cluster kubeadm](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/).
+
+▶️ [Clean up your environment](Clean-up-environment.md)

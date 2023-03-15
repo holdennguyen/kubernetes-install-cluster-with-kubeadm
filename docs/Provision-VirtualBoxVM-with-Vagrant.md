@@ -1,8 +1,8 @@
 # Vagrant
+<p align="left">
+<img src="data:image/svg+xml;utf8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjggMTI4Ij48cG9seWdvbiBmaWxsPSIjMTE1OWNjIiBwb2ludHM9IjEyMi41IDIzLjkgMTIyLjUgMTIuODIgOTUuOTEgMjguMyA5NS45MSAzNy42NCA3NC42MyA4My41NCA2My45OSA5MC44NyA2My45OSAxMjQuNDggODYuOCAxMTEuMzMgMTIyLjUgMjMuOSIvPjxwb2x5Z29uIGZpbGw9IiMxMTU5Y2MiIHBvaW50cz0iNjMuOTkgNjYuOTQgNDguMDQgMjkuNzEgNDguMDQgMTkuMTkgNDcuOTMgMTkuMTMgMzIuMDkgMjguMyAzMi4wOSAzNy42NCA1My4zNiA4NS41NSA2My45OSA4MC4zIDYzLjk5IDY2Ljk0Ii8+PHBvbHlnb24gZmlsbD0iIzEyN2VmZiIgcG9pbnRzPSIxMDYuNTUgMy41MiA3OS45NyAxOS4wOSA3OS45NSAxOS4wOCA3OS45NSAxOS4wOSA3OS45NSAxOS4wOSA3OS45NSAxOS4wOSA3OS45NSAyOS43MSA2My45OSA2Ni45NCA2My45OSA3OS4zOSA1My4zNiA4NS41NSAzMi4wOSAzNy42NCAzMi4wOSAyOC4yOCA0OC4wNSAxOS4wOSAyMS40NSAzLjUyIDUuNSAxMi44MiA1LjUgMjQuMjQgNDEuNCAxMTEuNDQgNjMuOTkgMTI0LjQ4IDYzLjk5IDkxLjcyIDc0LjYzIDg1LjU1IDc0LjUgODUuNDcgOTUuOTEgMzcuNjQgOTUuOTEgMjguMyA5NS45MSAyOC4yOCAxMjIuNSAxMi44MiAxMDYuNTUgMy41MiIvPjwvc3ZnPg==" width="50">
+</p>
 
-- Website: [https://www.vagrantup.com/](https://www.vagrantup.com/)
-- Source: [https://github.com/hashicorp/vagrant](https://github.com/hashicorp/vagrant)
-- HashiCorp Discuss: [https://discuss.hashicorp.com/c/vagrant/24](https://discuss.hashicorp.com/c/vagrant/24)
 
 `Vagrant` is a tool for creating and managing virtual machine environments. It is often considered a form of `Infrastructure as Code (IaC)`, as it allows us to define and manage our infrastructure using code. However, it is important to note that Vagrant is primarily a tool for managing virtual machine environments, and is not typically used for managing production infrastructure.
 
