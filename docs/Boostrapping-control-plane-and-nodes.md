@@ -178,11 +178,11 @@ Run `kubectl get pods -A` on control plane to see all pods of `kube-system`
     kube-system   coredns-787d4945fb-q2s4p               0/1     Pending   0          3h8m
     kube-system   etcd-controlplane                      1/1     Running   0          3h8m
     kube-system   kube-apiserver-controlplane            1/1     Running   0          3h8m
-    kube-system   kube-controller-manager-controlplane   1/1     Running   1          3h8m
+    kube-system   kube-controller-manager-controlplane   1/1     Running   0          3h8m
     kube-system   kube-proxy-7twwr                       1/1     Running   0          3h7m
     kube-system   kube-proxy-8mxt7                       1/1     Running   0          3h8m
     kube-system   kube-proxy-v9rc6                       1/1     Running   0          3h8m
-    kube-system   kube-scheduler-controlplane            1/1     Running   1          3h9m
+    kube-system   kube-scheduler-controlplane            1/1     Running   0          3h9m
 
 You must deploy a `Container Network Interface (CNI)` based `Pod network add-on` so that your Pods can communicate with each other. `Cluster DNS (CoreDNS)` will not start up before a network is installed.
 
@@ -212,7 +212,7 @@ Run this command on control plane `kubemaster`:
 
     kubectl edit ds weave-net -n kube-system
 
-It will open allow you to edit the yaml file of weave-net deployment, enter edit mode by press `i`. Find spec of `container` name `weave` to add environment variable `IPALLOC_RANGE`, value is `--pod-network-cidr`
+It will open allow you to edit the yaml file of `weave-net daemon set`, enter edit mode by press `i`. Find `spec` of `container` name `weave` to add environment variable `IPALLOC_RANGE`, value is `--pod-network-cidr`
 
     spec:
     ...
@@ -229,8 +229,27 @@ It will open allow you to edit the yaml file of weave-net deployment, enter edit
 
 Save file and wait few minutes for `weave-net` pods rebooting.
 
-Run `kubectl get pods -A` on control plane again to verify...
+Run `kubectl get pods -A` on control plane again to verify, you will see 3 pods of `weave-net daemon set` and the `coredns` pods are running now:
 
+    NAMESPACE     NAME                                 READY   STATUS    RESTARTS   AGE
+    kube-system   coredns-787d4945fb-48tbh             1/1     Running   0          6m57s
+    kube-system   coredns-787d4945fb-nrsp7             1/1     Running   0          6m57s
+    kube-system   etcd-kubemaster                      1/1     Running   0          7m10s
+    kube-system   kube-apiserver-kubemaster            1/1     Running   0          7m12s
+    kube-system   kube-controller-manager-kubemaster   1/1     Running   0          7m10s
+    kube-system   kube-proxy-8sxss                     1/1     Running   0          4m19s
+    kube-system   kube-proxy-j7z6x                     1/1     Running   0          6m58s
+    kube-system   kube-proxy-nj8j2                     1/1     Running   0          4m14s
+    kube-system   kube-scheduler-kubemaster            1/1     Running   0          7m10s
+    kube-system   weave-net-7mldz                      2/2     Running   0          2m
+    kube-system   weave-net-dk5dl                      2/2     Running   0          70s
+    kube-system   weave-net-znhnm                      2/2     Running   0          2m
 
+Run `kubectl get nodes` to verify status of cluster, all nodes are ready now:
+
+    NAME         STATUS   ROLES           AGE     VERSION
+    kubemaster   Ready    control-plane   9m54s   v1.26.2
+    kubenode01   Ready    <none>          6m59s   v1.26.2
+    kubenode02   Ready    <none>          6m54s   v1.26.2
 
 Networking is a central part of Kubernetes, see [Kubernetes networking model](https://kubernetes.io/docs/concepts/cluster-administration/networking/#how-to-implement-the-kubernetes-networking-model) for more information.
