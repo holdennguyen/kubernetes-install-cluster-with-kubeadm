@@ -231,6 +231,4 @@ Run `kubectl get pods -A` on control plane again to verify...
 
 
 
-
-
 Networking is a central part of Kubernetes, see [Kubernetes networking model](https://kubernetes.io/docs/concepts/cluster-administration/networking/#how-to-implement-the-kubernetes-networking-model) for more information.

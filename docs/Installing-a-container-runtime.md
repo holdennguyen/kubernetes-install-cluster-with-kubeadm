@@ -127,3 +127,7 @@ and run the following commands:
 In v1.22, if the user is not setting the `cgroupDriver` field under `KubeletConfiguration`, `kubeadm` will default it to **systemd**. 
 So in this tutorial we don't need to config `cgroup driver` for `kubelet` cause we will use `kubeadm` to bootstraping cluster tool in the next few steps.
 You can see [here](https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/configure-cgroup-driver/#configuring-the-kubelet-cgroup-driver) for more configuring information.
+
+## Next
+
+▶️ [Installing kubeadm, kubelet and kubectl on all virtual machines](Installing-kubeadm-kubelet-kubectl.md)
