@@ -47,4 +47,4 @@
 * ▶️ [Installing a container runtime (containerd) on all virtual machines](docs/en/Installing-a-container-runtime.md)
 * ▶️ [Installing kubeadm, kubelet and kubectl on all virtual machines](docs/en/Installing-kubeadm-kubelet-kubectl.md)
 * ▶️ [Boostrapping control plane and nodes](docs/en/Boostrapping-control-plane-and-nodes.md)
-* ▶️ [Clean up environment](docs/Clean-up-environment.md)
+* ▶️ [Clean up environment](docs/en/Clean-up-environment.md)
