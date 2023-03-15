@@ -62,68 +62,38 @@ Verify that the `net.bridge.bridge-nf-call-iptables`, `net.bridge.bridge-nf-call
 
 ## Install containerd
 
->In this tutorial, I will choose the latest version when writing this doc. You can go to the release links and select the difference version as you want.
+The `containerd.io` packages in DEB and RPM formats are distributed by Docker (not by the containerd project). Compare to the containerd original binaries, `containerd.io` package contains runc too, but does not contain CNI plugins.
 
-#### Getting the official binaries
-Download the `containerd-<VERSION>-<OS>-<ARCH>.tar.gz` archive from https://github.com/containerd/containerd/releases , verify its sha256sum:
+>Container Network Interface (CNI) is a standard interface for configuring networking for Linux containers. It enables a wide range of networking options, including overlay networks, load balancing, and security policies, to be used with containerized applications. In this tutorial we use CNI plugin based on Pod network add-on which will be installed later in task [Boostrapping control plane and nodes](/docs/Boostrapping-control-plane-and-nodes.md/#installing-a-pod-network-add-on).
 
-    wget -c https://github.com/containerd/containerd/releases/download/v1.7.0/containerd-1.7.0-linux-amd64.tar.gz
-    wget -c https://github.com/containerd/containerd/releases/download/v1.7.0/containerd-1.7.0-linux-amd64.tar.gz.sha256sum
+Update the apt package index and install packages to allow apt to use a repository over HTTPS:
 
-    # verify the integrity of downloaded file
-    sha256sum containerd-1.7.0-linux-amd64.tar.gz
+    sudo apt-get update
 
-And extract it under `/usr/local`:
+    sudo apt-get install \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release
 
-    sudo tar Cxzvf /usr/local containerd-1.7.0-linux-amd64.tar.gz
+Add Docker’s official GPG key:
 
-![output](images/containerd-binaries-output.png)
+    sudo mkdir -m 0755 -p /etc/apt/keyrings
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 
-The `containerd` binary is built dynamically for glibc-based Linux distributions such as Ubuntu and Rocky Linux. This binary may not work on musl-based distributions such as Alpine Linux. Users of such distributions may have to install containerd from the source or a third party package.
+Use the following command to set up the repository:
 
-#### Installing runc
+    echo \
+    "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+    $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-Download the `runc.<ARCH>` binary from https://github.com/opencontainers/runc/releases , verify its sha256sum:
+Update the apt package index after set up repo:
 
-    wget -c https://github.com/opencontainers/runc/releases/download/v1.1.4/runc.amd64
-    wget -c https://github.com/opencontainers/runc/releases/download/v1.1.4/runc.amd64.asc
+    sudo apt-get update
 
-    # verify the integrity of downloaded file
-    sha256sum runc.amd64
+Install the latest version package containerd.io
 
-and install it as `/usr/local/sbin/runc`:
-
-    sudo install -m 755 runc.amd64 /usr/local/sbin/runc
-
-The binary is built statically and should work on any Linux distribution.
-
-#### Installing CNI plugins
-
-`Container Network Interface (CNI)` is a standard interface for configuring networking for Linux containers. It enables a wide range of networking options, including overlay networks, load balancing, and security policies, to be used with containerized applications. `Kubernetes` uses `CNI plugins` to provide [network connectivity](https://kubernetes.io/docs/concepts/cluster-administration/networking/) between the pods running on the cluster.
-
-Download the `cni-plugins-<OS>-<ARCH>-<VERSION>.tgz` archive from https://github.com/containernetworking/plugins/releases , verify its sha256sum:
-
-    wget -c https://github.com/containernetworking/plugins/releases/download/v1.2.0/cni-plugins-linux-amd64-v1.2.0.tgz
-    wget -c https://github.com/containernetworking/plugins/releases/download/v1.2.0/cni-plugins-linux-amd64-v1.2.0.tgz.sha256
-
-    # verify the integrity of downloaded file
-    sha256sum cni-plugins-linux-amd64-v1.2.0.tgz.sha256
-
-and extract it under `/opt/cni/bin`:
-
-    sudo mkdir -p /opt/cni/bin
-    sudo tar Cxzvf /opt/cni/bin cni-plugins-linux-amd64-v1.2.0.tgz
-
-![output](images/cni-plugins-output.png)
-
-#### Alternative options from `apt-get` or `dnf`
-
-The `containerd.io` packages in DEB and RPM formats are distributed by Docker (not by the containerd project). See the [Docker documentation](https://docs.docker.com/engine/install/ubuntu/) for how to set up apt-get or dnf to install `containerd.io` packages.
-
-**The `containerd.io` package contains runc too, but does not contain CNI plugins.**
-
->You need CNI (Container Network Interface) plugins for Kubernetes.
-CNI is a standard interface for configuring networking for Linux containers. It enables a wide range of networking options, including overlay networks, load balancing, and security policies, to be used with containerized applications. Kubernetes uses CNI plugins to provide network connectivity between the pods running on the cluster. 
+    sudo apt-get install containerd.io
 
 ## Cgroup drivers
 

@@ -205,8 +205,6 @@ Output will be
     rolebinding.rbac.authorization.k8s.io/weave-net created
     daemonset.apps/weave-net created
 
->Before installing `Weave Net`, you should make sure the following ports are not blocked by your firewall: `TCP 6783` and `UDP 6783/6784`. For more details, see the [FAQ](https://www.weave.works/docs/net/latest/faq/#ports).
-
 Take care that your Pod network must not overlap with any of the machine networks. If you define a `CIDR block` during `kubeadm init` with `--pod-network-cidr`, insert parameter `IPALLOC_RANGE` in `Weaver network plugin's YAML`.
 Run this command on control plane `kubemaster`:
 
@@ -214,17 +212,22 @@ Run this command on control plane `kubemaster`:
 
 It will open allow you to edit the yaml file of weave-net deployment, enter edit mode by press `i`. Find spec of `container` name `weave` to add environment variable `IPALLOC_RANGE`, value is `--pod-network-cidr`
 
-      containers:
-        - name: weave
-          env:
-            - name: IPALLOC_RANGE
-              value: 10.244.0.0/16
+    spec:
+    ...
+        template:
+        ...
+            spec:
+            ...
+                containers:
+                ...
+                    env:
+                    - name: IPALLOC_RANGE
+                      value: 10.244.0.0/16
+                    name: weave
 
 Save file and wait few minutes for `weave-net` pods rebooting.
 
-Run `kubectl get pods -A` on control plane again to verify:
-
-*I'm facing with an issue about weave-net pods failed 2/3, I need to sleep... See you tomorrow yah*
+Run `kubectl get pods -A` on control plane again to verify...
 
 
 
