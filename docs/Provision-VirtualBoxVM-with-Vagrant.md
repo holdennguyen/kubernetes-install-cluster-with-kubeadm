@@ -246,7 +246,8 @@ It will show your virtual machines which be managed by vagrant
 
 #### Issue: vagrant up times out on 'default: SSH auth method: private key' 
 
-If you're using `Windows` and already have `Hyper-V`, you must disable Hyper-V to avoid conflict with `Virtual Box` which could lead to `vagrant up` time out. 
+This issue happened when failed to boot virtual machine. By default, VirtualBox uses a TSC mode called "RealTscOffset," which adjusts the TSC value on the guest machine to compensate for any time differences between the host and guest. 
+If you're using `Windows` and already have `Hyper-V`, you must disable `Hyper-V` to avoid conflict with `Virtual Box` which could lead to `vagrant up` time out. 
 
 To disable `Hyper-V` completely, enter the following command:
 

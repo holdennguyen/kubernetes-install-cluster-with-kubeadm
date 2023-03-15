@@ -8,22 +8,22 @@
 </h1>
 
 <h4 align="center">🦖 Detail explain step-by-step for beginner.</h4>
-<p align="center">Reference to K8s documentation - section <a href="https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/">Bootstrapping clusters with kubeadm.</a><br>This tutorial walks you through setting up Kubernetes Cluster on a local machine using VirtualBox.<br>We will use Vagrant to automate provisioning VirtualBox's VM.</p>
+<p align="center">Reference to K8s documentation - section <a href="https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/" target="_blank">Bootstrapping clusters with kubeadm.</a><br>This tutorial walks you through setting up Kubernetes Cluster on a local machine using VirtualBox.<br>We will use Vagrant to automate provisioning VirtualBox's VM.</p>
 
 <p align="center">
-  <a href="https://www.vagrantup.com/">
+  <a href="https://www.vagrantup.com/" target="_blank">
     <img src="https://img.shields.io/badge/-Vagrant-1868F2?logo=vagrant&logoColor=white" alt="Vagrant">
   </a>
-  <a href="https://www.virtualbox.org/">
+  <a href="https://www.virtualbox.org/" target="_blank">
     <img src="https://img.shields.io/badge/-VirtualBox-183A61?logo=VirtualBox&logoColor=white" alt="Kubernetes">
   </a>
-  <a href="https://kubernetes.io/">
+  <a href="https://kubernetes.io/" target="_blank">
     <img src="https://img.shields.io/badge/-Kubernetes-326CE5?logo=kubernetes&logoColor=white" alt="Kubernetes">
   </a>
-  <a href="https://containerd.io/">
+  <a href="https://containerd.io/" target="_blank">
     <img src="https://img.shields.io/badge/-containerd-575757?logo=containerd&logoColor=white" alt="containerd">
   </a>
-    <a href="https://opensource.org/licenses/MIT">
+    <a href="https://opensource.org/licenses/MIT" target="_blank">
     <img src="https://img.shields.io/badge/license-MIT-blue.svg??style=flat&logo=appveyor" alt="Licence MIT">
   </a>
 </p>
