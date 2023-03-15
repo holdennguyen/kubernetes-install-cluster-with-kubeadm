@@ -37,6 +37,8 @@ To initialize the control plane, run this command in your virtual machine hostna
 
     kubeadm join <control-plane-host>:<control-plane-port> --token <token> --discovery-token-ca-cert-hash sha256:<hash>
 
+**Save the command `kubeadm join...` to join the nodes into cluster later**.
+
 To make `kubectl` work for your `non-root user`, run these commands, which are also part of the `kubeadm init` output:
 
     mkdir -p $HOME/.kube
