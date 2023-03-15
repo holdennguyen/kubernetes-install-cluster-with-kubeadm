@@ -43,8 +43,8 @@
 
 ### Step-by-step tutorial
 
-* ▶️ [Provision VirtualBox's VM with Vagrant](docs/Provision-VirtualBoxVM-with-Vagrant.md)
-* ▶️ [Installing a container runtime (containerd) on all virtual machines](docs/Installing-a-container-runtime.md)
-* ▶️ [Installing kubeadm, kubelet and kubectl on all virtual machines](docs/Installing-kubeadm-kubelet-kubectl.md)
-* ▶️ [Boostrapping control plane and nodes](docs/Boostrapping-control-plane-and-nodes.md)
+* ▶️ [Provision VirtualBox's VM with Vagrant](docs/en/Provision-VirtualBoxVM-with-Vagrant.md)
+* ▶️ [Installing a container runtime (containerd) on all virtual machines](docs/en/Installing-a-container-runtime.md)
+* ▶️ [Installing kubeadm, kubelet and kubectl on all virtual machines](docs/en/Installing-kubeadm-kubelet-kubectl.md)
+* ▶️ [Boostrapping control plane and nodes](docs/en/Boostrapping-control-plane-and-nodes.md)
 * ▶️ [Clean up environment](docs/Clean-up-environment.md)

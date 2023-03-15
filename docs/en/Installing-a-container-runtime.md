@@ -64,7 +64,7 @@ Verify that the `net.bridge.bridge-nf-call-iptables`, `net.bridge.bridge-nf-call
 
 The `containerd.io` packages in DEB and RPM formats are distributed by Docker (not by the containerd project). Compare to the containerd original binaries, `containerd.io` package contains runc too, but does not contain CNI plugins.
 
->Container Network Interface (CNI) is a standard interface for configuring networking for Linux containers. It enables a wide range of networking options, including overlay networks, load balancing, and security policies, to be used with containerized applications. In this tutorial we use CNI plugin based on Pod network add-on which will be installed later in task [Boostrapping control plane and nodes](/docs/Boostrapping-control-plane-and-nodes.md/#installing-a-pod-network-add-on).
+>Container Network Interface (CNI) is a standard interface for configuring networking for Linux containers. It enables a wide range of networking options, including overlay networks, load balancing, and security policies, to be used with containerized applications. In this tutorial we use CNI plugin based on Pod network add-on which will be installed later in task [Boostrapping control plane and nodes](/docs/en/Boostrapping-control-plane-and-nodes.md/##installing-a-pod-network-add-on).
 
 Update the apt package index and install packages to allow apt to use a repository over HTTPS:
 
@@ -91,7 +91,7 @@ Update the apt package index after set up repo:
 
     sudo apt-get update
 
-Install the latest version package containerd.io
+Install the latest version package `containerd.io`
 
     sudo apt-get install containerd.io
 
@@ -135,4 +135,4 @@ You can see [here](https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/c
 
 ## Next
 
-▶️ [Installing kubeadm, kubelet and kubectl on all virtual machines](Installing-kubeadm-kubelet-kubectl.md)
+▶️ [Installing kubeadm, kubelet and kubectl on all virtual machines](Installing-kubeadm-kubelet-kubectl.md/#kubernetes-cluster-with-containerd)

@@ -68,4 +68,4 @@ The kubelet is now restarting every few seconds, as it waits in a crashloop for 
 
 ## Next
 
-▶️ [Boostrapping control plane and nodes](Boostrapping-control-plane-and-nodes.md)
+▶️ [Boostrapping control plane and nodes](Boostrapping-control-plane-and-nodes.md/#boostraping-control-plane-and-nodes)

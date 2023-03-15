@@ -12,7 +12,7 @@ For the quick-start, we'll bring up a development machine on `VirtualBox` becaus
 
 First, download and install the [VirtualBox](https://www.virtualbox.org/wiki/Download_Old_Builds) and [Vagrant](https://www.vagrantup.com/downloads.html) on your host.
 
-We will build our virtual environment from `Vagrantfile`. Clone this repo or just copy this [Vagrantfile](../Vagrantfile) to your current directory.
+We will build our virtual environment from `Vagrantfile`. Clone this repo or just copy this [Vagrantfile](../../Vagrantfile) to your current directory.
 
     # -*- mode: ruby -*-
     # vi:set ft=ruby sw=2 ts=2 sts=2:
@@ -265,7 +265,7 @@ Just run the commands:
 
     vagrant ssh <hostname>
 
-![Vagrant SSH in VSCode](images/vagrant-ssh-vscode.png)
+![Vagrant SSH in VSCode](../images/vagrant-ssh-vscode.png)
 
 As you can see in the output of `vagrant up`, Vagrant had fowarded port 22 and generated keypairs for each machine without ssh configuration in `Vagrantfile`. 
 For more information you can see [Vagrant Share: SSH Sharing](https://developer.hashicorp.com/vagrant/docs/share/ssh) and [Vagrantfile: config.ssh](https://developer.hashicorp.com/vagrant/docs/vagrantfile/ssh_settings).

@@ -5,8 +5,6 @@
 
 >If you have already installed kubeadm long time before, run `apt-get update && apt-get upgrade` to get the latest version of `kubeadm` & `kubelet`.
 
-![Components of kubernetes](images/components-of-kubernetes.svg)
-
 ## Initializing your control plane
 
 The `control plane` is the machine where the control plane components run, including `etcd` (the cluster database) and the `API Server` (which the `kubectl` command line tool communicates with).
@@ -118,6 +116,8 @@ A few seconds later, you should notice this node in the output from kubectl get 
 
 ## Verify Kubernetes cluster components
 
+![Components of kubernetes](../images/components-of-kubernetes.svg)
+
 On control-plane `kubemaster` and worker nodes `kubenode01`, `kubenode02` run
 
     sudo netstat -lntp
@@ -184,9 +184,7 @@ Run `kubectl get pods -A` on control plane to see all pods of `kube-system`
     kube-system   kube-proxy-v9rc6                       1/1     Running   0          3h8m
     kube-system   kube-scheduler-controlplane            1/1     Running   0          3h9m
 
-You must deploy a `Container Network Interface (CNI)` based `Pod network add-on` so that your Pods can communicate with each other. `Cluster DNS (CoreDNS)` will not start up before a network is installed.
-
->The installed [CNI plugin](/docs/Installing-a-container-runtime.md/#installing-cni-plugins) in task installing `containerd` are responsible for configuring the networking for containers. 
+You must deploy a `Container Network Interface (CNI)` based `Pod network add-on` so that your Pods can communicate with each other. `Cluster DNS (CoreDNS)` will not start up untill the pod networking is configured.
 
 `Pod network add-ons` are `Kubernetes-specific CNI plugins` that provide **network connectivity between pods** in a `Kubernetes cluster`. They create a `virtual network overlay` that spans the entire cluster and provides each `pod` with its own `unique IP address`.
 
@@ -212,7 +210,7 @@ Run this command on control plane `kubemaster`:
 
     kubectl edit ds weave-net -n kube-system
 
-It will open allow you to edit the yaml file of `weave-net daemon set`, enter edit mode by press `i`. Find `spec` of `container` name `weave` to add environment variable `IPALLOC_RANGE`, value is `--pod-network-cidr`
+It will open allow you to edit the yaml file of `weave-net daemon set`. Find `spec` of `container` name `weave` to add environment variable `IPALLOC_RANGE`, value is `--pod-network-cidr`
 
     spec:
     ...
@@ -260,4 +258,4 @@ Networking is a central part of Kubernetes, see [Kubernetes networking model](ht
 
 For more option to customize the cluster with kubeadm, read [Create cluster kubeadm](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/).
 
-▶️ [Clean up your environment](Clean-up-environment.md)
+▶️ [Clean up your environment](Clean-up-environment.md/#clean-up-environment)
