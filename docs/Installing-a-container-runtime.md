@@ -113,7 +113,11 @@ Since our virtual machine use **systemd**, we will configure `kubelet` and `cont
 
 #### Configuring the `containerd` cgroup driver
 
-To use the `systemd` cgroup driver in `/etc/containerd/config.toml` with `runc`, replace all context of `config.toml` file with: 
+To config `containerd` use the `systemd` cgroup driver, run:
+
+    sudo vi /etc/containerd/config.toml
+
+replace all context of `config.toml` file with setting below: 
 
     [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
         [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
