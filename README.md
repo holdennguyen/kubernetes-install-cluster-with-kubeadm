@@ -48,3 +48,4 @@
 * ▶️ [Installing kubeadm, kubelet and kubectl on all virtual machines](docs/Installing-kubeadm-kubelet-kubectl.md)
 * ▶️ [Boostrapping control plane and nodes](docs/Boostrapping-control-plane-and-nodes.md)
 * ▶️ [Clean up environment](docs/Clean-up-environment.md)
+* 
