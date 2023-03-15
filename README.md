@@ -30,7 +30,7 @@
 
 <p align="center">
   <a href="README.md">🇺🇸</a>
-  <a href="README.vi">🇻🇳</a>
+  <a href="README-vi.md">🇻🇳</a>
 </p>
 
 ### Before you begin
