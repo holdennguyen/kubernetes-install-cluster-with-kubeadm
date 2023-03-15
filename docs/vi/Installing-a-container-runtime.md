@@ -3,23 +3,23 @@
 <img src="https://containerd.io/img/logos/icon/black/containerd-icon-black.png" width="50" >
 </p>
 
-*Performing this task on all virtual machines*
+*Thực hiện công việc ở bước này trên tất cả các máy ảo*
 
-> Note: Dockershim has been removed from the Kubernetes project as of release 1.24. Read the [Dockershim Removal FAQ](https://kubernetes.io/blog/2022/02/17/dockershim-faq/) for further details.
+> Ghi chú: `Dockershim` đã bị bỏ khỏi dự án `Kubernetes` ở bản `1.24`. Đọc [Dockershim Removal FAQ](https://kubernetes.io/blog/2022/02/17/dockershim-faq/) để biết thêm thông tin.
 
-> Dockershim is a component of Kubernetes that was used to communicate with the Docker runtime. It was introduce as a temporary solution to allow Kubernetes to use Docker as a container runtime, before Kubernetes had its own `container runtime interface (CRI)`.
+> `Dockershim` là một thành phẩn của `Kubernetes` được sử dụng để giao tiếp với `Docker runtime`. Nó được giới thiệu như một giải pháp tạm thời cho phép `Kubernetes` sử dụng `Docker` như một `container runtime` trước khi `Kubernetes` có `container runtime interface (CRI)` của riêng họ.
 
-You need to install a container runtime into each node in the cluster so that Pods can run there. And Kubernetes 1.26 requires that you use a runtime that conforms with the `Container Runtime Interface (CRI)`. There are several common container runtimes with Kubernetes:
+Bạn cần phải cài đặt một `container runtime` trên mỗi node trong cụm K8s (Kubernetes) để các `Pods` có thể chạy ở đó. Và phiên bản K8s 1.26 yêu cầu phải sử dụng một `container runtime` tương thích với `Container Runtime Interface (CRI)` của K8s. Đây là một số `container runtime` phổ biến với Kubernetes:
 * [containerd](https://containerd.io/)
 * [CRI-O](https://cri-o.io/)
 * [Docker Engine](https://docs.docker.com/engine/)
 * [Mirantis Container Runtime](https://docs.mirantis.com/mcr/20.10/overview.html)
 
-You can find the instructions for each type [here](https://kubernetes.io/docs/setup/production-environment/container-runtimes/). In this tutorial we will use [**Containerd**](https://github.com/containerd/containerd/blob/main/docs/getting-started.md).
+Bạn có thể xem hướng dẫn cài đặt cho các loại trên tại [đây](https://kubernetes.io/docs/setup/production-environment/container-runtimes/). Trong hướng dẫn này, chúng ta sẽ sử dụng [**Containerd**](https://github.com/containerd/containerd/blob/main/docs/getting-started.md).
 
-## Install and configure prerequistes
+## Cài đặt và thiết lập các yêu cầu cần chuẩn bị trước
 
-### Load kernel modules in Linux
+### Tải các module của nhân Linux
 
     cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
     overlay
@@ -29,44 +29,44 @@ You can find the instructions for each type [here](https://kubernetes.io/docs/se
     sudo modprobe overlay
     sudo modprobe br_netfilter
 
-* The `modules-load.d` directory in Linux is a system directory used for configuring the kernel module loading process. It contains files with the `.conf` extension that specify the modules that should be loaded when the system boots up.
+* `modules-load.d` trong Linux là thư mục hệ thống sử dụng để thiết lập các module của kernel được tải lên tiến trình. Nó bao gồm các tệp đuôi `.conf` chỉ định các module được tải khi hệ thống khởi động.
 
-* The `overlay` module is used to provide the overlay filesystem, which is a type of filesystem that allows multiple filesystems to be layered on top of each other. This is useful in containerization technology, where each container needs its own isolated filesystem.
+* Module `overlay` được sử dụng để cung cấp overlay filesystem, là một kiểu filesystem cho phép nhiều filesystem xếp chồng lên nhau. Nó cực kỳ hữu dụng trong công nghệ containerization, nơi các container cần những filesystem cô lập của riêng nó.
 
-* The `br_netfilter` module is used to enable kernel-level packet filtering and manipulation, which is useful for network traffic control and security. It is often used in conjunction with network namespaces and virtual network devices to provide network isolation and routing for containerized applications.
+* Module `br_netfilter` được sử dụng để bật tính năng lọc và thao tác gói tin ở kernel-level, hữu dụng đối với việc kiểm soát lưu lượng mạng và bảo mật. Nó thường được dùng cùng với các mạng của namespace và các thiết bị mạng ảo để cung cấp việc cô lập cũng như định tuyến cho ứng dụng containerized.  
 
-Verify that the `overlay`, `br_netfilter` modules are loaded by running below instructions:
+Để kiểm tra module `overlay` và `br_netfilter` đã được load, chạy lệnh dưới đây:
 
     lsmod | grep overlay
     lsmod | grep br_netfilter
 
-### Fowarding IPv4 and letting iptables see bridged traffic
+### Chuyển tiếp IPv4 và cho phép iptables nhận diện brigded traffic
 
-    # sysctl params required by setup, params persist across reboots
+    #  thiết lập các tham số sysctl, luôn tồn tại dù khởi động lại
     cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
     net.bridge.bridge-nf-call-iptables  = 1
     net.bridge.bridge-nf-call-ip6tables = 1
     net.ipv4.ip_forward                 = 1
     EOF
 
-    # Apply sysctl params without reboot
+    # Áp dụng các tham số sysctl mà không cần khởi động lại
     sudo sysctl --system
 
-* The `sysctl.d` directory in Linux is a system directory used for configuring kernel parameters at runtime. It contains files with the `.conf` extension that specify the values of sysctl variables, which are kernel parameters that can be used to fine-tune the behavior of the Linux kernel.
+* `sysctl.d` là thư mục hệ thống trong Linux, sử dụng để thiết lập các tham số cho kernel trong runtime. Nó chứa các tệp có đuôi `.conf` quy định các giá trị của biến sysctl, đó là các tham số của kernel có thể được sử dụng để tinh chỉnh hành vi của Linux kernel.
 
-* In a containerized environment, it is often necessary to enable (set to 1) `net.bridge.bridge-nf-call-iptables` so that traffic between containers can be filtered by the host's iptables firewall. This is important for security reasons, as it allows the host to provide an additional layer of network security for containerized applications.
+* Trong môi trường containerized, thông thường cần phải bật (đặt giá trị 1) `net.bridge.bridge-nf-call-iptables` để traffic giữa các container có thể lọc bởi iptables firewall của máy chủ. Điều này rất quan trọng vì lý do bảo mật, nó cho phép máy chủ cung cấp các lớp bảo mật mạng cho ứng dụng containerized.
 
-Verify that the `net.bridge.bridge-nf-call-iptables`, `net.bridge.bridge-nf-call-ip6tables`, `net.ipv4.ip_forward` system variables are set to 1 in your sysctl config by running below instruction:
+Để kiểm tra `net.bridge.bridge-nf-call-iptables`, `net.bridge.bridge-nf-call-ip6tables`, `net.ipv4.ip_forward` đã được bật trong thiết lập sysctl hay chưa, chạy lệnh:
 
     sysctl net.bridge.bridge-nf-call-iptables net.bridge.bridge-nf-call-ip6tables net.ipv4.ip_forward
 
-## Install containerd
+## Cài đặt containerd
 
-The `containerd.io` packages in DEB and RPM formats are distributed by Docker (not by the containerd project). Compare to the containerd original binaries, `containerd.io` package contains runc too, but does not contain CNI plugins.
+Gói `containerd.io` ở định dạng DEB và RPM được phân phối bởi `Docker` (không phải bởi dự án `containerd`). So sánh với các tệp nhị phân gốc của `containerd`, gói `containerd.io` cũng bao gồm `runc`, nhưng lại không có `CNI plugins`.
 
->Container Network Interface (CNI) is a standard interface for configuring networking for Linux containers. It enables a wide range of networking options, including overlay networks, load balancing, and security policies, to be used with containerized applications. In this tutorial we use CNI plugin based on Pod network add-on which will be installed later in task [Boostrapping control plane and nodes](/docs/en/Boostrapping-control-plane-and-nodes.md/##installing-a-pod-network-add-on).
+>`Container Network Interface (CNI)` là giao diện tiêu chuẩn để cấu hình mạng cho các `container` trên `Linux`. Nó cho phép một loạt các tùy chọn kết nối mạng bao gồm `overlay network`, `load balancing` và các chính sách bảo mật sử dụng với ứng dụng containerized. Trong hướng dẫn này, chúng ta sẽ sử dụng `CNI plugin` với `Pod network add-on` sẽ được cài đặt ở bước sau trong mục [Boostrapping control plane and nodes](/docs/en/Boostrapping-control-plane-and-nodes.md/##installing-a-pod-network-add-on).
 
-Update the apt package index and install packages to allow apt to use a repository over HTTPS:
+Cập nhật apt package index và cài đặt packages cho phép apt sử dụng repository qua HTTPS:
 
     sudo apt-get update
 
@@ -76,63 +76,63 @@ Update the apt package index and install packages to allow apt to use a reposito
     gnupg \
     lsb-release
 
-Add Docker’s official GPG key:
+Thêm GPG key chính thức của Docker:
 
     sudo mkdir -m 0755 -p /etc/apt/keyrings
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 
-Use the following command to set up the repository:
+Sử dụng lệnh sau để cài đặt repository:
 
     echo \
     "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
     $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-Update the apt package index after set up repo:
+Cập nhật lại apt package index sau khi cài đặt repo:
 
     sudo apt-get update
 
-Install the latest version package `containerd.io`
+Cài đặt phiên bản mới nhất của gói `containerd.io`
 
     sudo apt-get install containerd.io
 
 ## Cgroup drivers
 
-On Linux, [control groups](https://docs.kernel.org/admin-guide/cgroup-v1/cgroups.html) are used to constrain resources that are allocated to processes.
+Trong Linux, các [control group](https://docs.kernel.org/admin-guide/cgroup-v1/cgroups.html) được sử dụng để giới hạn tài nguyên phân bổ cho các tiến trình.
 
-Both kubelet and the underlying container runtime need to interface with control groups to enforce resource management for pods and containers and set resources such as cpu/memory requests and limits. To interface with control groups, the kubelet and the container runtime need to use a cgroup driver. **It's critical that the `kubelet` and the `container runtime` uses the same `cgroup driver` and are configured the same**.
+Các `kubelet` và `container runtime` chạy dưới nó đều cần `control groups` để thực hiện việc quản lý tài nguyên cho các `pod` và `container` như yêu cầu hay giới hạn về cpu/memory. Để giao tiếp với các `control group`, `kubelet` và `container runtime` cần sử dụng `cgroup driver`. **Một điều cực kỳ quan trọng đó là `kubelet` và `container runtime` cần phải sử dụng cùng một loại `cgroup driver` với thiết lập giống nhau**.
 
-There are two cgroup drivers available:
+Có hai loại `cgroup drivers` hỗ trợ đó là:
 
 * **cgroupfs**
 * **systemd**
 
-Since our virtual machine use **systemd**, we will configure `kubelet` and `container runtime` use **systemd** as their `cgroup driver`.
+Bởi vì các máy ảo đã dựng của chúng ta sử dụng **systemd**, vậy nên ta sẽ thiết lập `kubelet` và `containerd` dùng **systemd** làm `cgroup driver`.
 
 
->Depending on the distribution and version, you may see the difference `cgroup driver`. To show the current `cgroup driver` type in Linux, you can check the value of the cgroup mount point by type the following command: `cat /proc/mounts | grep cgroup`
+>Tùy thuộc vào bản phân phối và phiên bản của Linux, bạn sẽ thấy loại `cgroup driver` khác nhau. Để xem loại `cgroup driver` hiện tại trên Linux, bạn có thể kiểm tra giá trị của `cgroup mount point` bằng cách nhập lệnh: `cat /proc/mounts | grep cgroup`
 
-#### Configuring the `containerd` cgroup driver
+#### Thiết lập `cgroup driver` cho `containerd`
 
-To config `containerd` use the `systemd` cgroup driver, run:
+Để thiết lập cho `containerd` dùng `cgroup driver` là `systemd`, chạy:
 
     sudo vi /etc/containerd/config.toml
 
-replace all context of `config.toml` file with setting below: 
+thay thế toàn bộ nội dung trong tệp `config.toml` với nội dung cài đặt sau: 
 
     [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
         [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
             SystemdCgroup = true
 
-make sure to restart `containerd` to apply this change
+nhớ khởi động lại `containerd` để áp dụng thay đổi
 
     sudo systemctl restart containerd
 
-#### Configuring the `kubelet` cgroup driver
+#### Thiết lập `cgroup driver` cho `kubelet`
 
-In v1.22, if the user is not setting the `cgroupDriver` field under `KubeletConfiguration`, `kubeadm` will default it to **systemd**. 
-So in this tutorial we don't need to config `cgroup driver` for `kubelet` cause we will use `kubeadm` to bootstraping cluster tool in the next few steps.
-You can see [here](https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/configure-cgroup-driver/#configuring-the-kubelet-cgroup-driver) for more configuring information.
+Trong phiên bản 1.22, nếu người dùng không cài đặt trường `cgroupDriver` trong `KubeletConfiguration`, `kubeadm` sẽ mặc định nó là **systemd**. 
+Chúng ta không cần làm gì để thiết lập `cgroup driver` cho `kubelet` trong hướng dẫn này vì sẽ dùng `kubeadm` để khởi tạo cụm K8s trong các bước tiếp theo.
+Bạn có thể xem tại [đây](https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/configure-cgroup-driver/#configuring-the-kubelet-cgroup-driver) để biết thêm thông tin về cách thiết lập.
 
-## Next
+## Tiếp theo
 
-▶️ [Installing kubeadm, kubelet and kubectl on all virtual machines](Installing-kubeadm-kubelet-kubectl.md/#kubernetes-cluster-with-containerd)
+▶️ [Cài đặt kubeadm, kubelet và kubectl trên tất cả các máy ảo](Installing-kubeadm-kubelet-kubectl.md/#kubernetes-cluster-with-containerd)

@@ -8,9 +8,9 @@
 
 ## Quick Start
 
-For the quick-start, we'll bring up a development machine on `VirtualBox` because it is free and works on all major platforms.
+For the quick-start, we'll bring up virtual machines on `VirtualBox` because it is free and works on all major platforms.
 
-First, download and install the [VirtualBox](https://www.virtualbox.org/wiki/Download_Old_Builds) and [Vagrant](https://www.vagrantup.com/downloads.html) on your host.
+First, download and install the [VirtualBox](https://www.virtualbox.org/wiki/Download_Old_Builds), [Vagrant](https://www.vagrantup.com/downloads.html) on your host.
 
 We will build our virtual environment from `Vagrantfile`. Clone this repo or just copy this [Vagrantfile](../../Vagrantfile) to your current directory.
 
@@ -29,7 +29,9 @@ We will build our virtual environment from `Vagrantfile`. Clone this repo or jus
     # configures the configuration version (we support older styles for
     # backwards compatibility). Please don't change it unless you know what
     # you're doing.
+
     Vagrant.configure("2") do |config|
+
     # The most common configuration options are documented and commented below.
     # For a complete reference, please see the online documentation at
     # https://docs.vagrantup.com.
@@ -48,6 +50,7 @@ We will build our virtual environment from `Vagrantfile`. Clone this repo or jus
         # CPUs: 2
         # Desktop Environment: None (headless)
         # Provider: VirtualBox
+        
     config.vm.box = "ubuntu/bionic64"
 
     # Disable automatic box update checking. If you disable this, then
@@ -249,11 +252,11 @@ It will show your virtual machines which be managed by vagrant
 This issue happened when failed to boot virtual machine. By default, VirtualBox uses a TSC mode called "RealTscOffset," which adjusts the TSC value on the guest machine to compensate for any time differences between the host and guest. 
 If you're using `Windows` and already have `Hyper-V`, you must disable `Hyper-V` to avoid conflict with `Virtual Box` which could lead to `vagrant up` time out. 
 
-To disable `Hyper-V` completely, enter the following command:
+To disable `Hyper-V` completely, enter the following command in cmd:
 
     bcdedit /set hypervisorlaunchtype off
 
-followed by system restart. 
+followed by turn off & turn on machine. 
 
 >Note that `bcdedit` is short for `boot configuration data edit`, i.e. it affects what software will be loaded on the next OS boot, so it is essential that you perform a full boot from a complete power down (not a suspend and restart) in order for the changes to take effect. Leave the PC powered down for `10 seconds` before starting it again. If your PC does not offer a full shutdown from the start menu you could try running `shutdown /p` from an admin command prompt. On a laptop you may have to remove the battery.
 

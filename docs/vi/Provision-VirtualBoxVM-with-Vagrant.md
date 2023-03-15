@@ -4,20 +4,20 @@
 </p>
 
 
-`Vagrant` is a tool for creating and managing virtual machine environments. It is often considered a form of `Infrastructure as Code (IaC)`, as it allows us to define and manage our infrastructure using code. However, it is important to note that Vagrant is primarily a tool for managing virtual machine environments, and is not typically used for managing production infrastructure.
+`Vagrant` là một công cụ để tạo và quản lý môi trường máy ảo. Nó thường được coi là một dạng `Infrastructure as Code (IaC)`, cho phép chúng ta khởi tạo và quản lý cơ sở hạ tầng của mình bằng code thay vì chọn bằng tay trên console. Vagrant chủ yếu đóng vai trò là công cụ sử dụng cho môi trường máy ảo và thường sẽ không dùng để quản lý cơ sở hạ tầng Production.
 
-## Quick Start
+## Bắt đầu
 
-For the quick-start, we'll bring up a development machine on `VirtualBox` because it is free and works on all major platforms.
+Chúng ta sẽ tạo các máy ảo với `Virtual Box` bởi vì nó miễn phí và hoạt động ổn trên tất cả các hệ điều hành.
 
-First, download and install the [VirtualBox](https://www.virtualbox.org/wiki/Download_Old_Builds) and [Vagrant](https://www.vagrantup.com/downloads.html) on your host.
+Đầu tiên, tải và cài đặt [VirtualBox](https://www.virtualbox.org/wiki/Download_Old_Builds), [Vagrant](https://www.vagrantup.com/downloads.html) trên máy tính của bạn.
 
-We will build our virtual environment from `Vagrantfile`. Clone this repo or just copy this [Vagrantfile](../../Vagrantfile) to your current directory.
+Chúng ta sẽ xây dựng các máy ảo theo khai báo trong `Vagrantfile`. Dùng Git clone repo này hoặc đơn giản copy [Vagrantfile](../../Vagrantfile) này vào thư mục của bạn.
 
     # -*- mode: ruby -*-
     # vi:set ft=ruby sw=2 ts=2 sts=2:
 
-    # Define the number of control plane (MASTER_NODE) and node (WORKER_NODE)
+    # Xác định số lượng máy control plane (MASTER_NODE) và máy node (WORKER_NODE)
     NUM_MASTER_NODE = 1
     NUM_WORKER_NODE = 2
 
@@ -25,41 +25,42 @@ We will build our virtual environment from `Vagrantfile`. Clone this repo or jus
     MASTER_IP_START = 1
     NODE_IP_START = 2
 
-    # All Vagrant configuration is done below. The "2" in Vagrant.configure
-    # configures the configuration version (we support older styles for
-    # backwards compatibility). Please don't change it unless you know what
-    # you're doing.
+    # Tất cả thiết lập Vagrant được khai báo dưới đây. Số "2" trong Vagrant.configure
+    # là thiết lập phiên bản sử dụng
+    # Đừng thay đổi trừ khi bạn biết mình đang làm gì
+
     Vagrant.configure("2") do |config|
-    # The most common configuration options are documented and commented below.
-    # For a complete reference, please see the online documentation at
+
+    # Để tham khảo thêm, xem tài liệu tại
     # https://docs.vagrantup.com.
 
-    # Every Vagrant development environment requires a box. You can search for
-    # boxes at https://vagrantcloud.com/search.
-    # Here are some key details about the "ubuntu/bionic64" Vagrant box:
-        # Operating System: Ubuntu 18.04 LTS (Bionic Beaver)
-            # Ubuntu 18.04 LTS will receive security updates and bug fixes 
-            # from Canonical, the company behind Ubuntu, until April 2023 
-            # for desktop and server versions, and until April 2028 for 
-            # server versions with Extended Security Maintenance (ESM) enabled.
-        # Architecture: x86_64 (64-bit)
-        # Disk Size: 10 GB
+    # Tất cả môi trường mà Vagrant xây dựng đều cần một box. Bạn có thể tìm các
+    # box tại https://vagrantcloud.com/search.
+    # Đây là một số thông tin chi tiết về vagrant box "ubuntu/bionic64":
+        # Hệ điều hành: Ubuntu 18.04 LTS (Bionic Beaver)
+            # Ubuntu 18.04 LTS sẽ được cập nhật bảo mật và sửa lỗi 
+            # từ Canonical, công ty đứng sau Ubuntu, cho đến tháng 4 năm 2023 
+            # đối với bản desktop và server, và đến tháng 4 năm 2028 đối 
+            # với bản server có Extended Security Maintenance (ESM).
+        # Kiến trúc: x86_64 (64-bit)
+        # Dung lượng bộ nhớ: 10 GB
         # RAM: 2 GB
         # CPUs: 2
-        # Desktop Environment: None (headless)
-        # Provider: VirtualBox
+        # Giao diện đồ họa: None (headless)
+        # Người tạo: VirtualBox
+
     config.vm.box = "ubuntu/bionic64"
 
-    # Disable automatic box update checking. If you disable this, then
-    # boxes will only be checked for updates when the user runs
-    # `vagrant box outdated`. This is not recommended.
+    # Tắt tính năng tự động cập nhật của box. Nếu tắt,
+    # boxes sẽ chỉ kiểm tra cập nhật khi người dùng chạy
+    # `vagrant box outdated`. Không khuyến khích.
+
     config.vm.box_check_update = false
 
-    # View the documentation for the VirtualBox for more
-    # information on available options.
+    # Xem thêm tài liệu của Virtual box tại
     # https://developer.hashicorp.com/vagrant/docs/providers/virtualbox/configuration
 
-    # Provision Control Plane
+    # Khởi tạo Control Plane
     (1..NUM_MASTER_NODE).each do |i|
         config.vm.define "kubemaster" do |node|
             node.vm.provider "virtualbox" do |vb|
@@ -73,7 +74,7 @@ We will build our virtual environment from `Vagrantfile`. Clone this repo or jus
     end
 
 
-    # Provision Nodes
+    # Khởi tạo Nodes
     (1..NUM_WORKER_NODE).each do |i|
         config.vm.define "kubenode0#{i}" do |node|
             node.vm.provider "virtualbox" do |vb|
@@ -87,23 +88,23 @@ We will build our virtual environment from `Vagrantfile`. Clone this repo or jus
     end
     end
 
-In this Vagrantfile, we simply specify: 
-- Number of virtual machines: `NUM_MASTER_NODE`, `NUM_WORKER_NODE`
-- IP address: `IP_NW`, `MASTER_IP_START`, `NODE_IP_START`
-- Private networking connectivity: `node.vm.network`
-- Unique hostname: `node.vm.hostname`
-- Operating system: `config.vm.box`
-- System resources: `vb.memory`, `vb.cpus`
+Trong `Vagrantfile` này, chúng ta đơn giản chỉ khai báo: 
+- Số lượng máy ảo: `NUM_MASTER_NODE`, `NUM_WORKER_NODE`
+- Địa chỉ IP: `IP_NW`, `MASTER_IP_START`, `NODE_IP_START`
+- Kết nối mạng nội bộ: `node.vm.network`
+- hostname riêng biệt cho mỗi máy ảo: `node.vm.hostname`
+- Hệ điều hành: `config.vm.box`
+- Tài nguyên hệ thống: `vb.memory`, `vb.cpus`
 
-The syntax of Vagrantfiles is [Ruby](https://www.ruby-lang.org/en/), but knowledge of the Ruby programming language is not necessary to make modifications to the Vagrantfile. See [here](https://developer.hashicorp.com/vagrant/docs/vagrantfile) for more information about Vagrantfile syntax.
+Cú pháp trong Vagrantfiles là [Ruby](https://www.ruby-lang.org/en/), nhưng để viết hay chỉnh sửa bạn không cần phải hiểu về ngôn ngữ lập trình Ruby. Xem thêm [đây](https://developer.hashicorp.com/vagrant/docs/vagrantfile) để biết thêm thông tin về cú pháp trong Vagrantfile.
 
-## Start provisioning
+## Bắt đầu khởi tạo
 
-Run the command:
+Chạy câu lệnh:
 
     vagrant up
 
-Output should be simillar:
+Output sẽ tương tự như sau:
 
     Bringing machine 'kubemaster' up with 'virtualbox' provider...
     Bringing machine 'kubenode01' up with 'virtualbox' provider...
@@ -228,11 +229,11 @@ Output should be simillar:
     ==> kubenode02: Mounting shared folders...
         kubenode02: /vagrant => C:/Users/MSI BRAVO/kubernetes-install-cluster-with-kubeadm
 
-You can verify our provisioning VM by command:
+Bạn có thể kiểm tra trạng thái các máy ảo đã dựng bằng lệnh sau:
 
     vagrant status
 
-It will show your virtual machines which be managed by vagrant
+Thông tin về các máy ảo được tạo và quản lý bởi `vagrant` được trả về
 
     Current machine states:
 
@@ -244,34 +245,34 @@ It will show your virtual machines which be managed by vagrant
     above with their current state. For more information about a specific
     VM, run `vagrant status NAME`.
 
-#### Issue: vagrant up times out on 'default: SSH auth method: private key' 
+#### Lỗi nhức nách: vagrant up times out tại bước 'default: SSH auth method: private key' 
 
-This issue happened when failed to boot virtual machine. By default, VirtualBox uses a TSC mode called "RealTscOffset," which adjusts the TSC value on the guest machine to compensate for any time differences between the host and guest. 
-If you're using `Windows` and already have `Hyper-V`, you must disable `Hyper-V` to avoid conflict with `Virtual Box` which could lead to `vagrant up` time out. 
+Lỗi này xảy ra khi bật máy ảo không thành công. Mặc định, Virtual Box sử dụng TSC mode gọi là "RealTscOffset," để điều chỉnh giá trị TSC ([Time Stamp Counter](https://learning.oreilly.com/library/view/mastering-linux-kernel/9781785883057/20712c1b-f659-40da-a09d-55efc93b0597.xhtml)) trên máy ảo để đồng bộ clock freqency của CPU giữa máy host và máy ảo.
 
-To disable `Hyper-V` completely, enter the following command:
+Nếu bạn đang sử dụng Windows đã bật phần mềm máy ảo `Hyper-V`, phải tắt `Hyper-V` để tránh gây ra xung đột với `Virtual Box` dẫn đến lỗi `vagrant up` time out ở trên.
+
+Để tắt hoàn toàn `Hyper-V`, chạy lệnh sau trong cmd:
 
     bcdedit /set hypervisorlaunchtype off
 
-followed by system restart. 
+sau đó tắt và bật lại máy tính. 
 
->Note that `bcdedit` is short for `boot configuration data edit`, i.e. it affects what software will be loaded on the next OS boot, so it is essential that you perform a full boot from a complete power down (not a suspend and restart) in order for the changes to take effect. Leave the PC powered down for `10 seconds` before starting it again. If your PC does not offer a full shutdown from the start menu you could try running `shutdown /p` from an admin command prompt. On a laptop you may have to remove the battery.
+>Chú ý rằng `bcdedit` là viết tắt của `boot configuration data edit`, nói cách khác nó sẽ ảnh hưởng đến những phần mềm có thiết lập khi boot lại hệ điều hành, vì vậy bạn cần phải `shutdown` máy hoàn toàn (không `suspend` hay `restart`) để áp dụng thay đổi. Để PC tắt trong khoảng `10 giây` trước khi bật lại. Nếu PC không cho shutdown trong Start menu, bạn có thể chạy lệnh `shutdown /p` trong cmd dưới quyền admin. Trên laptop, bạn có thể cần phải tháo pin.
 
-Reinstall `Vagrant` & `Virtual Box`. If issue is still exist, you might have to reinstall `Windows OS`!
+Cài lại `Vagrant` và `Virtual Box`. Nếu lỗi vẫn còn, có thể bạn sẽ phải cài lại hệ điều hành `Windows`, nhớ đừng bật `Hyper-V`!
 
-## Remote to virtual machine with Vagrant
+## Truy cập vào máy ảo bằng Vagrant
 
-Just run the commands: 
+Để ssh vào máy ảo, chỉ cần chạy lệnh: 
 
     vagrant ssh <hostname>
 
 ![Vagrant SSH in VSCode](../images/vagrant-ssh-vscode.png)
 
-As you can see in the output of `vagrant up`, Vagrant had fowarded port 22 and generated keypairs for each machine without ssh configuration in `Vagrantfile`. 
-For more information you can see [Vagrant Share: SSH Sharing](https://developer.hashicorp.com/vagrant/docs/share/ssh) and [Vagrantfile: config.ssh](https://developer.hashicorp.com/vagrant/docs/vagrantfile/ssh_settings).
+Có thể thấy trong output khi chạy `vagrant up`, `Vagrant` có chuyển tiếp port 22 và tạo ssh keypairs cho mỗi máy ảo dù chúng ta không thiết lập trong `Vagrantfile`. Để xem thêm thông tin, bạn có thể đọc [Vagrant Share: SSH Sharing](https://developer.hashicorp.com/vagrant/docs/share/ssh) và [Vagrantfile: config.ssh](https://developer.hashicorp.com/vagrant/docs/vagrantfile/ssh_settings).
 
-Then you're good to go!
+OK, sang bước kế tiếp nào!
 
-## Next
+## Tiếp theo
 
-▶️ [Installing a container runtime (containerd) on all virtual machines](Installing-a-container-runtime.md)
+▶️ [Cài đặt container runtime (containerd) trên tất cả các máy ảo](Installing-a-container-runtime.md)
