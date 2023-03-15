@@ -3,7 +3,7 @@
   <a href="README.md"><img src="docs/images/cluster-k8s.png" alt="Cluster diagram"></a>
   <br>
     <br>
-  Bootstrapping Kubenetes Cluster with kubeadm on Virtual Box
+  Bootstrapping Kubernetes Cluster with kubeadm on Virtual Box
   <br>
 </h1>
 
@@ -30,7 +30,7 @@
 
 <p align="center">
   <a href="README.md">🇺🇸</a>
-  <a href="">🇻🇳</a>
+  <a href="README.vi">🇻🇳</a>
 </p>
 
 ### Before you begin
@@ -46,5 +46,5 @@
 * ▶️ [Provision VirtualBox's VM with Vagrant](docs/en/Provision-VirtualBoxVM-with-Vagrant.md)
 * ▶️ [Installing a container runtime (containerd) on all virtual machines](docs/en/Installing-a-container-runtime.md)
 * ▶️ [Installing kubeadm, kubelet and kubectl on all virtual machines](docs/en/Installing-kubeadm-kubelet-kubectl.md)
-* ▶️ [Boostrapping control plane and nodes](docs/en/Boostrapping-control-plane-and-nodes.md)
+* ▶️ [Bootstrapping control plane and nodes](docs/en/Boostrapping-control-plane-and-nodes.md)
 * ▶️ [Clean up environment](docs/en/Clean-up-environment.md)
