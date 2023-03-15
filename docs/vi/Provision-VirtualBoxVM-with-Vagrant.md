@@ -96,7 +96,7 @@ Trong `Vagrantfile` này, chúng ta đơn giản chỉ khai báo:
 - Hệ điều hành: `config.vm.box`
 - Tài nguyên hệ thống: `vb.memory`, `vb.cpus`
 
-Cú pháp trong Vagrantfiles là [Ruby](https://www.ruby-lang.org/en/), nhưng để viết hay chỉnh sửa bạn không cần phải hiểu về ngôn ngữ lập trình Ruby. Xem thêm [đây](https://developer.hashicorp.com/vagrant/docs/vagrantfile) để biết thêm thông tin về cú pháp trong Vagrantfile.
+Cú pháp trong `Vagrantfile` là [Ruby](https://www.ruby-lang.org/en/), nhưng để viết hay chỉnh sửa bạn không cần phải hiểu về `ngôn ngữ lập trình Ruby`. Xem thêm [đây](https://developer.hashicorp.com/vagrant/docs/vagrantfile) để biết thêm thông tin về `cú pháp trong Vagrantfile`.
 
 ## Bắt đầu khởi tạo
 

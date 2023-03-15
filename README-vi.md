@@ -8,7 +8,7 @@
 </h1>
 
 <h4 align="center">🦖 Giải thích chi tiết từng bước cho người mới bắt đầu.</h4>
-<p align="center">Tham khảo K8s documentation - mục <a href="https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/" target="_blank">Bootstrapping clusters with kubeadm.</a><br>Hướng dẫn này sẽ dựng cụm Kubernetes trên máy tính cá nhân bằng cách sử dụng máy ảo Virtual Box.<br>Chúng ta sẽ sử dụng phần mềm Vagrant để tự động hóa quá trình tạo máy ảo Virtual Box.</p>
+<p align="center">Tham khảo tài liệu của K8s - mục <a href="https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/" target="_blank">Bootstrapping clusters with kubeadm.</a><br>Hướng dẫn này sẽ dựng cụm Kubernetes trên máy tính cá nhân bằng cách sử dụng máy ảo Virtual Box.<br>Chúng ta sẽ sử dụng phần mềm Vagrant để tự động hóa quá trình tạo máy ảo Virtual Box.</p>
 
 <p align="center">
   <a href="https://www.vagrantup.com/" target="_blank">

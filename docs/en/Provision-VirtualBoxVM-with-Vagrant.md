@@ -98,7 +98,7 @@ In this Vagrantfile, we simply specify:
 - Operating system: `config.vm.box`
 - System resources: `vb.memory`, `vb.cpus`
 
-The syntax of Vagrantfiles is [Ruby](https://www.ruby-lang.org/en/), but knowledge of the Ruby programming language is not necessary to make modifications to the Vagrantfile. See [here](https://developer.hashicorp.com/vagrant/docs/vagrantfile) for more information about Vagrantfile syntax.
+The syntax of Vagrantfile is [Ruby](https://www.ruby-lang.org/en/), but knowledge of the `Ruby programming language` is not necessary to make modifications to the `Vagrantfile`. See [here](https://developer.hashicorp.com/vagrant/docs/vagrantfile) for more information about `Vagrantfile syntax`.
 
 ## Start provisioning
 
