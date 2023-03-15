@@ -29,8 +29,8 @@
 </p>
 
 <p align="center">
-  <a href="README.md">🇺🇸</a>
-  <a href="README-vi.md">🇻🇳</a>
+  <a href="README.md"><img src="/docs/images/us.png" width="25"></a>
+  <a href="README-vi.md"><img src="/docs/images/vi.png" width="25"></a>
 </p>
 
 ### Trước khi bắt đầu
