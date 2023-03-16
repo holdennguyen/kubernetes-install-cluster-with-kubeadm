@@ -3,7 +3,6 @@
 <img src="/docs/images/vagrant-logo.png" width="50">
 </p>
 
-
 `Vagrant` is a tool for creating and managing virtual machine environments. It is often considered a form of `Infrastructure as Code (IaC)`, as it allows us to define and manage our infrastructure using code. However, it is important to note that Vagrant is primarily a tool for managing virtual machine environments, and is not typically used for managing production infrastructure.
 
 ## Quick Start
@@ -12,7 +11,7 @@ For the quick-start, we'll bring up virtual machines on `VirtualBox` because it 
 
 First, download and install the [VirtualBox](https://www.virtualbox.org/wiki/Download_Old_Builds), [Vagrant](https://www.vagrantup.com/downloads.html) on your host.
 
-We will build our virtual environment from `Vagrantfile`. Clone this repo or just copy this [Vagrantfile](../../Vagrantfile) to your current directory.
+We will build our virtual environment from `Vagrantfile`. Clone this repo or just copy this [Vagrantfile](../../Vagrantfile) to your current directory (Reference: [kodekloudhub](https://github.com/kodekloudhub/certified-kubernetes-administrator-course)).
 
     # -*- mode: ruby -*-
     # vi:set ft=ruby sw=2 ts=2 sts=2:

@@ -12,7 +12,7 @@ Chúng ta sẽ tạo các máy ảo với `Virtual Box` bởi vì nó miễn ph�
 
 Đầu tiên, tải và cài đặt [VirtualBox](https://www.virtualbox.org/wiki/Download_Old_Builds), [Vagrant](https://www.vagrantup.com/downloads.html) trên máy tính của bạn.
 
-Chúng ta sẽ xây dựng các máy ảo theo khai báo trong `Vagrantfile`. Dùng Git clone repo này hoặc đơn giản copy [Vagrantfile](../../Vagrantfile) này vào thư mục của bạn.
+Chúng ta sẽ xây dựng các máy ảo theo khai báo trong `Vagrantfile`. Dùng Git clone repo này hoặc đơn giản copy [Vagrantfile](../../Vagrantfile) này vào thư mục của bạn. (Tham khảo: [kodekloudhub](https://github.com/kodekloudhub/certified-kubernetes-administrator-course))
 
     # -*- mode: ruby -*-
     # vi:set ft=ruby sw=2 ts=2 sts=2:
