@@ -5,7 +5,7 @@
 
 ## Initializing your control plane
 
-The `control plane` is the machine where the control plane components run, including `etcd` (the cluster database) and the `API Server` (which the `kubectl` command line tool communicates with).
+The `control plane` is the machine where run components including `etcd` (the cluster database) and the `API Server` (which the `kubectl` command line tool communicates with).
 
 To initialize the control plane, run this command in your virtual machine hostname `kubemaster`:
 
@@ -46,7 +46,7 @@ Alternatively, if you are the `root user`, you can run:
     export KUBECONFIG=/etc/kubernetes/admin.conf
 
 >Warning: `Kubeadm` signs the certificate in the `admin.conf` to have `Subject: O = system:masters`, `CN = kubernetes-admin`. 
-`system:masters` is a break-glass, super user group that bypasses the authorization layer (e.g. RBAC). Do not share the `admin.conf` file with anyone and instead grant users custom permissions by generating them a kubeconfig file using the kubeadm kubeconfig user command. For more details see [Generating kubeconfig files for additional users](https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-certs/#kubeconfig-additional-users).
+`system:masters` is a break-glass, super user group that bypasses the authorization layer (e.g. [RBAC](https://docs.oracle.com/cd/E19253-01/816-4557/rbac-1/)). Do not share the `admin.conf` file with anyone and instead grant users custom permissions by generating them a `kubeconfig file` using the `kubeadm kubeconfig` user command. For more details see [Generating kubeconfig files for additional users](https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-certs/#kubeconfig-additional-users).
 
 ## Joining your nodes
 

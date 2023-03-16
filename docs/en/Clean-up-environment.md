@@ -35,9 +35,9 @@ If you wish to start over, run `kubeadm init` or `kubeadm join` with the appropr
 
 Performs a best effort revert of changes made to this host by `kubeadm init`
 
-    sudo kubeadm reset --kubeconfig="$HOME/.kube/config"
+    sudo kubeadm reset --kubeconfig="/etc/kubernetes/admin.conf"
 
-`--kubeconfig=string`: Delete the kubeconfig file to use when talking to the cluster. If the flag is not set, a set of standard locations can be searched for an existing kubeconfig file. (Default: `/etc/kubernetes/admin.conf`)
+`--kubeconfig=string`: Delete the kubeconfig file to use when talking to the cluster. If the flag is not set, a set of standard locations can be searched for an existing kubeconfig file. (If you config to `non-root user` after `kubeadm init`, don't forget to also delete `$HOME/.kube/config`)
 
 The reset process does not reset or clean up iptables rules or IPVS tables. If you wish to reset iptables, you must do so manually as we do in [Remove the node](#remove-the-node).
 

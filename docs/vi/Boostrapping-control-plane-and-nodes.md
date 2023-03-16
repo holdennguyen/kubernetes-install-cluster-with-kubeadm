@@ -1,20 +1,20 @@
-# Khởi động control plane và nodes
+# Khởi tạo control plane và nodes
 <p align="left">
 <img src="https://kubernetes.io/images/favicon.png" width="50">
 </p>
 
-## Initializing your control plane
+## Khởi tạo control plane
 
-The `control plane` is the machine where the control plane components run, including `etcd` (the cluster database) and the `API Server` (which the `kubectl` command line tool communicates with).
+`control plane` là nơi chạy các `component` bao gồm `etcd` (cơ sở dữ liệu của `cluster`) và `API Server` (nơi các câu lệnh `kubectl` giao tiếp).
 
-To initialize the control plane, run this command in your virtual machine hostname `kubemaster`:
+Để tiến hành khởi tạo, chạy câu lệnh sau ở máy ảo mà chúng ta đặt tên là `kubemaster`:
 
     sudo kubeadm init --apiserver-advertise-address=192.168.56.2 --pod-network-cidr=10.244.0.0/16
  
-* `--apiserver-advertise-address=192.168.56.2`: The IP address the API Server will advertise it's listening on. In this tutorial we will use IP address of `kubemaster` vm.
-* `--pod-network-cidr=10.244.0.0/16`: the control plane will automatically allocate CIDRs for every node which specifies a range of IP addresses that can be used for pod IPs. **You may need to choose a CIDR range that is not overlap with any existing network ranges to avoid IP address conflicts**.
+* `--apiserver-advertise-address=192.168.56.2`: Địa chỉ IP mà máy chủ API sẽ lắng nghe các câu lệnh. Trong hướng dẫn này sẽ là địa chỉa IP của máy ảo `kubemaster`.
+* `--pod-network-cidr=10.244.0.0/16`: `control plane` sẽ tự động phân bổ địa chỉ IP trong `CIDR` chỉ định cho các `pod` trên mọi `node` trong cụm `cluster`. **Bạn sẽ cần phải chọn `CIDR` sao cho không trùng với bất kỳ dải mạng hiện có để tránh xung đột địa chỉ IP**.
 
-`kubeadm init` first runs a series of prechecks to ensure that the machine is ready to run `Kubernetes`. These prechecks expose warnings and exit on errors. `kubeadm init` then downloads and installs the cluster control plane components. This may take several minutes. After it finishes you should see:
+`kubeadm init` đầu tiên sẽ chạy một loại các bước kiểm tra để đảm bảo máy đã sẵn sàng chạy `Kubernetes`. Những bước kiểm tra này sẽ đưa ra các cảnh báo và thoát lệnh khi có lỗi. Kế tiếp `kubeadm init` tải xuống và cài đặt các thành phần của `control plane`. Việc này có thể sẽ mất vài phút, sau khi kết thúc bạn sẽ thấy thông báo:
 
     Your Kubernetes control-plane has initialized successfully!
 
@@ -33,34 +33,34 @@ To initialize the control plane, run this command in your virtual machine hostna
 
     kubeadm join <control-plane-host>:<control-plane-port> --token <token> --discovery-token-ca-cert-hash sha256:<hash>
 
-**Save the command `kubeadm join...` to join the nodes into cluster later**.
+**Lưu lại câu lệnh `kubeadm join...` khi init thành công để thêm các node vào `cluster`**.
 
-To make `kubectl` work for your `non-root user`, run these commands, which are also part of the `kubeadm init` output:
+Để `kubectl` có thể dùng với `non-root user`, chạy những lệnh sau, chúng cũng được nhắc trong output khi `kubeadm init` thành công:
 
     mkdir -p $HOME/.kube
     sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
     sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
-Alternatively, if you are the `root user`, you can run:
+Mặt khác, nếu bạn là `root user`, có thể dùng lệnh sau:
 
     export KUBECONFIG=/etc/kubernetes/admin.conf
 
->Warning: `Kubeadm` signs the certificate in the `admin.conf` to have `Subject: O = system:masters`, `CN = kubernetes-admin`. 
-`system:masters` is a break-glass, super user group that bypasses the authorization layer (e.g. RBAC). Do not share the `admin.conf` file with anyone and instead grant users custom permissions by generating them a kubeconfig file using the kubeadm kubeconfig user command. For more details see [Generating kubeconfig files for additional users](https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-certs/#kubeconfig-additional-users).
+>Cảnh báo: `Kubeadm` cấp certificate trong `admin.conf` để có `Subject: O = system:masters`, `CN = kubernetes-admin`. 
+`system:masters` là một nhóm người dùng siêu cấp, bỏ qua lớp ủy quyền (như [RBAC](https://docs.oracle.com/cd/E19253-01/816-4557/rbac-1/)). Tuyệt đối không chia sẻ tệp `admin.conf` với bất kỳ ai, thay vào đó hãy cấp cho người dùng các quyền tùy chỉnh bằng cách tạo cho họ một tệp `kubeconfig` với lệnh `kubeadm kubeconfig`. Để biết thêm chi tiết hãy đọc [Generating kubeconfig files for additional users](https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-certs/#kubeconfig-additional-users).
 
-## Joining your nodes
+## Thêm các node vào cluster
 
-Run the command that was output by `kubeadm init` on all worker nodes - virtual machine:`kubenode01`, `kubenode02`with sudo permission:
+Chạy câu lệnh trong phần output của `kubeadm init` trên tất cả các `worker node` - máy ảo:`kubenode01`, `kubenode02` với sudo permission:
 
     sudo kubeadm join --token <token> <control-plane-host>:<control-plane-port> --discovery-token-ca-cert-hash sha256:<hash>
 
-**If you lost the output command above, go to the control-plane: `kubemaster`.**
+**Nếu bạn không lưu lại lệnh `kubeadm join`, quay lại máy control-plane: `kubemaster`.**
 
-**Get the `<token>` by running**
+**Lấy `<token>` bằng lệnh**
 
     kubeadm token list
 
-The output is similar to this:
+Output sẽ tương tự như sau:
 
     TOKEN                    TTL  EXPIRES              USAGES           DESCRIPTION            EXTRA GROUPS
     8ewj1p.9r9hcjoqgajrj4gi  23h  2018-06-12T02:51:28Z authentication,  The default bootstrap  system:
@@ -68,36 +68,36 @@ The output is similar to this:
                                                                         'kubeadm init'.        kubeadm:
                                                                                                default-node-token
 
-By default, `<tokens>` expire after 24 hours. If you are joining a node to the cluster after the current `<token>` has expired, you can create a new `<token>` by running the following command on the `control-plane node`:
+Mặc định, `<tokens>` sẽ hết hạn sau `24 giờ`. Nếu bạn thêm `worker node` khi `<token>` đã hết hạn, bạn có thể tạo `<token>` mới bằng cách chạy lệnh sau trên `control-plane node`:
 
     kubeadm token create
 
-The output is similar to this:
+Output sẽ cho `<token>` mới tương tự như sau:
 
     5didvk.d09sbcov8ph2amjw
 
-**Get the `<hash>` by running**
+**Lấy `<hash>` bằng lệnh**
 
     openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | \
     openssl dgst -sha256 -hex | sed 's/^.* //'
 
-The output is similar to:
+Output sẽ tương tự:
 
     8cb2de97839780a412b93877f8507ad6c94f73add17d5d7058e91741c9d5ec78
 
-**Get the `<control-plane-host>:<control-plane-port>` by running**
+**Lấy `<control-plane-host>:<control-plane-port>` bằng lệnh**
 
     cat /$HOME/.kube/config | grep server
 
-The output is similar to:
+Sẽ được output tương tự:
 
     server: https://192.168.56.2:6443
 
-**`<control-plane-host>:<control-plane-port>`** will be **`192.168.56.2:6443`**
+**`<control-plane-host>:<control-plane-port>`** sẽ là **`192.168.56.2:6443`**
 
-**Node join to Kubernetes cluster successful**
+**Thêm `worker node` vào `Kubernetes cluster` thành công**
 
-The output should look something like:
+Bạn sẽ nhận được thông báo thành công như sau trên các máy `worker node`:
 
     [preflight] Running pre-flight checks
 
@@ -110,17 +110,17 @@ The output should look something like:
 
     Run 'kubectl get nodes' on control-plane to see this machine join.
 
-A few seconds later, you should notice this node in the output from kubectl get nodes when run on the control-plane node.
+Sau vài giây, bạn sẽ thấy thông tin `node` này trong phần `output` của lệnh `kubectl get nodes` khi chạy trên `control plane node`.
 
-## Verify Kubernetes cluster components
+## Kiểm tra các component của Kubernetes cluster
 
 ![Components of kubernetes](../images/components-of-kubernetes.svg)
 
-On control-plane `kubemaster` and worker nodes `kubenode01`, `kubenode02` run
+Ở control-plane `kubemaster` và worker nodes `kubenode01`, `kubenode02` chạy lệnh:
 
     sudo netstat -lntp
 
-All components with LISTEN ports will be shown as below:
+Tất cả các components với LISTEN ports tương ứng sẽ được hiển thị như dưới đây:
 
 **kubemaster** 
 
@@ -142,8 +142,8 @@ All components with LISTEN ports will be shown as below:
     tcp6       0      0 :::10256                :::*                    LISTEN      8182/kube-proxy
     tcp6       0      0 :::22                   :::*                    LISTEN      1380/sshd
 
->`kube-apiserver` show that it only LISTEN on IPv6 `:::6443` but actually the API server is listening on an IPv6 address that can be accessed through an `IPv4-mapped IPv6 address`. That why we can run `kubeadm join` on worker nodes succesfully. 
-For example, the IPv4 address `192.168.5.2` can be represented as the IPv6 address `::ffff:192.168.5.2`.
+>`kube-apiserver` hiển thị chỉ LISTEN tới `IPv6 :::6443` nhưng thực chất `API server` đang lắng nghe qua địa chỉ `IPv6` cho phép truy cập qua địa chỉ `IPv4`, còn gọi là `IPv4-mapped IPv6 address`. Đây là lý do tại sao có thể chạy lệnh `kubeadm join` trên `worker nodes` thành công với `--apiserver-advertise-address` tới địa chỉ `IPv4`.
+Ví dụ, địa chỉ IPv4 `192.168.5.2` có thể biểu diễn bằng địa chỉ IPv6 `::ffff:192.168.5.2`.
 
 **kubenode***
 
@@ -158,18 +158,18 @@ For example, the IPv4 address `192.168.5.2` can be represented as the IPv6 addre
     tcp6       0      0 :::10256                :::*                    LISTEN      9208/kube-proxy     
     tcp6       0      0 :::22                   :::*                    LISTEN      1431/sshd
 
-## Installing a Pod network add-on
+## Cài đặt Pod network add-on
 
-Run `kubectl get nodes` on control-plane to see this joined nodes
+Chạy lệnh `kubectl get nodes` trên `control plane` để kiểm tra các `node` đã thêm vào `cluster`
 
     NAME           STATUS     ROLES           AGE    VERSION
     kubemaster     NotReady   control-plane   3h1m   v1.26.2
     kubenode01     NotReady   <none>          3h     v1.26.2
     kubenode02     NotReady   <none>          179m   v1.26.2
 
-As you can see, our virtual machine `kubemaster`, `kubenode01`, `kubenode02` were joined the Kubernetes cluster but they are `NotReady`. 
+Có thể thấy, các máy ảo `kubemaster`, `kubenode01`, `kubenode02` đã được thêm vào `Kubernetes cluster` nhưng đang có `STATUS` là `NotReady`. 
 
-Run `kubectl get pods -A` on control plane to see all pods of `kube-system`
+Chạy lệnh `kubectl get pods -A` trên `control plane` để xem tất cả `pod` trong `kube-system namespace`
 
     NAMESPACE     NAME                                   READY   STATUS    RESTARTS   AGE
     kube-system   coredns-787d4945fb-5cwlq               0/1     Pending   0          3h8m
@@ -182,19 +182,19 @@ Run `kubectl get pods -A` on control plane to see all pods of `kube-system`
     kube-system   kube-proxy-v9rc6                       1/1     Running   0          3h8m
     kube-system   kube-scheduler-controlplane            1/1     Running   0          3h9m
 
-You must deploy a `Container Network Interface (CNI)` based `Pod network add-on` so that your Pods can communicate with each other. `Cluster DNS (CoreDNS)` will not start up untill the pod networking is configured.
+Bạn phải triển khai `Container Network Interface (CNI)` hỗ trợ `Pod network add-on` để các `Pod` có thể giao tiếp với nhau. `Cluster DNS (CoreDNS)` sẽ không được khởi động cho đến khi hoàn thất thiết lập `pod network`.
 
-`Pod network add-ons` are `Kubernetes-specific CNI plugins` that provide **network connectivity between pods** in a `Kubernetes cluster`. They create a `virtual network overlay` that spans the entire cluster and provides each `pod` with its own `unique IP address`.
+`Pod network add-ons` là `Kubernetes-specific CNI plugins` cung cấp **kết nối mạng giữa các pod** trong một `Kubernetes cluster`. Nó tạo một `mạng overlay ảo` phủ toàn bộ `cluster` và gắn cho mỗi `pod` một địa chỉ IP riêng.
 
-While `CNI plugins` can be used with any container runtime, pod network add-ons are specific to Kubernetes and provide the networking functionality required for the Kubernetes networking model. Some examples of pod network add-ons include `Calico`, `Flannel`, and `Weave Net`.
+Trong khi `CNI plugins` có thể được sử dụng với mọi `container runtime`, `pod network add-ons` dành riêng cho `Kubernetes` và cung cấp chức năng mạng cần thiết cho `mô hình mạng Kubernetes`. Một số ví dụ về `pod network add-ons` có kể đến `Calico`, `Flannel`, and `Weave Net`. (Xem thêm các `pod network add-ons` khác tại [đây](https://kubernetes.io/docs/concepts/cluster-administration/addons/#networking-and-network-policy))
 
-In this tutorial, we will use [Weave Net](https://www.weave.works/docs/net/latest/kubernetes/kube-addon/) add-ons. It is easier to set up, use and is a good fit for smaller-scale deployments.
+Trong hướng dẫn này, chúng ta sẽ sử dụng [Weave Net](https://www.weave.works/docs/net/latest/kubernetes/kube-addon/) add-ons. Nó dễ dàng cài đặt, sử dụng và phù hợp với việc triển khai ở quy mô nhỏ.
 
-To install onto Kubernetes cluster, run the following command on control plane `kubemaster`:
+Để cài đặt nó cho `Kubernetes cluster`, chạy lệnh dưới đây trên control plane `kubemaster`:
 
     kubectl apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s.yaml
 
-Output will be
+Output sẽ như sau
 
     serviceaccount/weave-net created
     clusterrole.rbac.authorization.k8s.io/weave-net created
@@ -203,12 +203,11 @@ Output will be
     rolebinding.rbac.authorization.k8s.io/weave-net created
     daemonset.apps/weave-net created
 
-Take care that your Pod network must not overlap with any of the machine networks. If you define a `CIDR block` during `kubeadm init` with `--pod-network-cidr`, insert parameter `IPALLOC_RANGE` in `Weaver network plugin's YAML`.
-Run this command on control plane `kubemaster`:
+Cần đảm bảo rằng `dải mạng của Pod` không bị trùng lặp với mạng trên các máy trong `cluster`. Nếu bạn khai báo `--pod-network-cidr` khi chạy `kubeadm init`, phải thêm tham số `IPALLOC_RANGE` vào tệp YAML của `Weave network plugin`. Chạy lệnh sau trên control plane `kubemaster`:
 
     kubectl edit ds weave-net -n kube-system
 
-It will open allow you to edit the yaml file of `weave-net daemon set`. Find `spec` of `container` name `weave` to add environment variable `IPALLOC_RANGE`, value is `--pod-network-cidr`
+Lệnh này sẽ cho phép bạn chỉnh sửa tệp YAML của `weave-net daemon set`. Tìm đến phần `spec` của `container` có tham số `name: weave` để thêm biến môi trường `IPALLOC_RANGE` và truyền tham số `--pod-network-cidr` khi chạy `kubeadm init`. (Tệp được mở trong trình chỉnh sửa `vi`)
 
     spec:
     ...
@@ -223,11 +222,11 @@ It will open allow you to edit the yaml file of `weave-net daemon set`. Find `sp
                       value: 10.244.0.0/16
                     name: weave
 
-Save file and wait few minutes for `weave-net` pods rebooting.
+Lưu tệp và đợi một vài phút để `weave-net daemon set` khởi động lại các `pod`.
 
-## Successful 
+## Thiết lập thành công 
 
-Run `kubectl get pods -A` on control plane again to verify, you will see 3 pods of `weave-net daemon set` and the `coredns` pods are running now:
+Chạy lại lệnh `kubectl get pods -A` trên control plane để kiểm tra, bạn sẽ thấy 3 pods của `weave-net daemon set` và `coredns pods` hiển thị đang chạy. (STATUS: Running)
 
     NAMESPACE     NAME                                 READY   STATUS    RESTARTS   AGE
     kube-system   coredns-787d4945fb-48tbh             1/1     Running   0          6m57s
@@ -243,17 +242,17 @@ Run `kubectl get pods -A` on control plane again to verify, you will see 3 pods 
     kube-system   weave-net-dk5dl                      2/2     Running   0          70s
     kube-system   weave-net-znhnm                      2/2     Running   0          2m
 
-Run `kubectl get nodes` to verify status of cluster, all nodes are ready now:
+Chạy `kubectl get nodes` để kiểm tra trạng thái các `node` trong `cluster`, chúng sẽ đều ở trạng thái sẵn sàng. (STATUS: Ready)
 
     NAME         STATUS   ROLES           AGE     VERSION
     kubemaster   Ready    control-plane   9m54s   v1.26.2
     kubenode01   Ready    <none>          6m59s   v1.26.2
     kubenode02   Ready    <none>          6m54s   v1.26.2
 
->If you see that a worker node has `ROLES` of `<none>`, it means that the node is not running any `control plane components` or Kubernetes services that would give it a specific role. Worker nodes typically do not run any control plane components, so this is perfectly normal and expected behavior for worker nodes in a Kubernetes cluster.
+>Nếu bạn thắc mắc tại sao `ROLES` của các `worker node` hiển thị `<none>`, điều đó có nghĩa là các `node` này đang không chạy các `control plane component` hay `Kubernetes services` chỉ định `role`. Thông thường `worker nodes` sẽ không chạy các `control plane component`, vì thế điều này hoàn toàn bình thường trong một `Kubernetes cluster`.
 
-Networking is a central part of Kubernetes, see [Kubernetes networking model](https://kubernetes.io/docs/concepts/cluster-administration/networking/#how-to-implement-the-kubernetes-networking-model) for more information.
+`Networking` là một phần trung tâm của `Kubernetes`, xem thêm [Kubernetes networking model](https://kubernetes.io/docs/concepts/cluster-administration/networking/#how-to-implement-the-kubernetes-networking-model) để biết thêm thông tin.
 
-For more option to customize the cluster with kubeadm, read [Create cluster kubeadm](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/).
+Nếu muốn tùy chỉnh `cluster` với kubeadm, bạn có thể đọc [Create cluster kubeadm](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/).
 
-▶️ [Clean up your environment](Clean-up-environment.md/#clean-up-environment)
+▶️ [Dọn dẹp môi trường](Clean-up-environment.md/#clean-up-environment)
