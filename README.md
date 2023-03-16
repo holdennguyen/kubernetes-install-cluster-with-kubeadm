@@ -23,9 +23,6 @@
   <a href="https://containerd.io/" target="_blank">
     <img src="https://img.shields.io/badge/-containerd-575757?logo=containerd&logoColor=white" alt="containerd">
   </a>
-    <a href="https://opensource.org/licenses/MIT" target="_blank">
-    <img src="https://img.shields.io/badge/license-MIT-blue.svg??style=flat&logo=appveyor" alt="Licence MIT">
-  </a>
 </p>
 
 <br>
