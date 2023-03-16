@@ -51,5 +51,5 @@
 * ▶️ [Tạo máy ảo Virtual Box bằng Vagrant](docs/vi/Provision-VirtualBoxVM-with-Vagrant.md)
 * ▶️ [Cài đặt container runtime (containerd) trên tất cả các máy ảo](docs/vi/Installing-a-container-runtime.md)
 * ▶️ [Cài đặt kubeadm, kubelet và kubectl trên tất cả các máy ảo](docs/vi/Installing-kubeadm-kubelet-kubectl.md)
-* ▶️ [Khởi động control plane và nodes](docs/vi/Boostrapping-control-plane-and-nodes.md)
+* ▶️ [Khởi tạo control plane và nodes](docs/vi/Boostrapping-control-plane-and-nodes.md)
 * ▶️ [Dọn dẹp môi trường](docs/vi/Clean-up-environment.md)

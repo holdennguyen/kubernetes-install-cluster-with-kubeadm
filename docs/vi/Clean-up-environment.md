@@ -39,7 +39,7 @@ Tiến hành quá trình đảo ngược lại tất cả các thay đổi `kube
 
 `--kubeconfig=string`: Xóa `kubeconfig file` được dùng để giao tiếp với `cluster`. Nếu không khai báo, một số thư mục sẽ được tìm để xóa `kubeconfig file`. (Nếu bạn thiết lập cho `non-root user` sau khi chạy `kubeadm init`, đừng quên xóa tệp thiết lập `$HOME/.kube/config`)
 
-Tương tự như đã đề cập ở phần loại bỏ `node`, quá trình reset này sẽ không reset hay dọn dẹp `iptables rules` hay `IPVS tables`. Nếu muốn reset, bạn phải làm thủ công như khi [Loại bỏ node](#remove-the-node)
+Tương tự như đã đề cập ở phần loại bỏ `node`, quá trình reset này sẽ không reset hay dọn dẹp `iptables rules` hay `IPVS tables`. Nếu muốn reset, bạn phải làm thủ công như khi loại bỏ node.
 
 ## Xóa bỏ tất cả các máy ảo
 

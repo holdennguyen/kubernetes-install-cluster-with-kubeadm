@@ -64,7 +64,7 @@ Bạn có thể xem hướng dẫn cài đặt cho các loại trên tại [đâ
 
 Gói `containerd.io` ở định dạng DEB và RPM được phân phối bởi `Docker` (không phải bởi dự án `containerd`). So sánh với các tệp nhị phân gốc của `containerd`, gói `containerd.io` cũng bao gồm `runc`, nhưng lại không có `CNI plugins`.
 
->`Container Network Interface (CNI)` là giao diện tiêu chuẩn để cấu hình mạng cho các `container` trên `Linux`. Nó cho phép một loạt các tùy chọn kết nối mạng bao gồm `overlay network`, `load balancing` và các chính sách bảo mật sử dụng với ứng dụng containerized. Trong hướng dẫn này, chúng ta sẽ sử dụng `CNI plugin` với `Pod network add-on` sẽ được cài đặt ở bước sau trong mục [Boostrapping control plane and nodes](/docs/en/Boostrapping-control-plane-and-nodes.md/##installing-a-pod-network-add-on).
+>`Container Network Interface (CNI)` là giao diện tiêu chuẩn để cấu hình mạng cho các `container` trên `Linux`. Nó cho phép một loạt các tùy chọn kết nối mạng bao gồm `overlay network`, `load balancing` và các chính sách bảo mật sử dụng với ứng dụng containerized. Trong hướng dẫn này, chúng ta sẽ sử dụng `CNI plugin` với `Pod network add-on` sẽ được cài đặt ở bước sau trong mục [Khởi tạo control plane và nodes](/docs/vi/Boostrapping-control-plane-and-nodes.md/##installing-a-pod-network-add-on).
 
 Cập nhật apt package index và cài đặt packages cho phép apt sử dụng repository qua HTTPS:
 
