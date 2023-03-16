@@ -3,12 +3,12 @@
   <a href="README.md"><img src="docs/images/cluster-k8s.png" alt="Cluster diagram"></a>
   <br>
     <br>
-  Xây dựng cụm Kubernetes bằng công cụ kubeadm trên Virtual Box
+  Xây dựng Kubernetes cluster bằng công cụ kubeadm trên Virtual Box
   <br>
 </h1>
 
 <h4 align="center">🦖 Giải thích chi tiết từng bước cho người mới bắt đầu.</h4>
-<p align="center">Tham khảo tài liệu của K8s - mục <a href="https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/" target="_blank">Bootstrapping clusters with kubeadm.</a><br>Hướng dẫn này sẽ dựng cụm Kubernetes trên máy tính cá nhân bằng cách sử dụng máy ảo Virtual Box.<br>Chúng ta sẽ sử dụng phần mềm Vagrant để tự động hóa quá trình tạo máy ảo Virtual Box.</p>
+<p align="center">Tham khảo tài liệu của K8s - mục <a href="https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/" target="_blank">Bootstrapping clusters with kubeadm.</a><br>Hướng dẫn này sẽ dựng Kubernetes cluster trên máy tính cá nhân bằng cách sử dụng máy ảo Virtual Box.<br>Chúng ta sẽ sử dụng phần mềm Vagrant để tự động hóa quá trình tạo máy ảo Virtual Box.</p>
 
 <p align="center">
   <a href="https://www.vagrantup.com/" target="_blank">
@@ -39,12 +39,12 @@
 </p>
 
 ### Trước khi bắt đầu
-* 🚧 Mô hình cụm: 1 máy Control Plan và 2 máy Node.
+* 🚧 Mô hình cluster: 1 máy Control Plan và 2 máy Node.
 * 🖥️ Hệ điều hành: Ubuntu 18.04 LTS (Bionic Beaver)
 * ⚙️ Tài nguyên hệ thống: 2 GB of RAM and 2 CPUs per machine.
 * 📮 Mỗi máy sẽ có hostname, MAC address, và product_uuid riêng biệt.
 * 🧱 Không thiết lập firewall. (Mặc định cho phép traffic ra vào các port)
-* 🌐 Các máy trong cụm được kết nối mạng với nhau (private network, sử dụng network interface enp0s8 của các máy ảo).
+* 🌐 Các máy trong cluster được kết nối mạng với nhau (private network, sử dụng network interface enp0s8 của các máy ảo).
 
 ### Hướng dẫn các bước
 

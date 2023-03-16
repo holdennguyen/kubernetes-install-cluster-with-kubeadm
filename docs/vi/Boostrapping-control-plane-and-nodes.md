@@ -1,9 +1,7 @@
-# Boostraping control plane and nodes
+# Khởi động control plane và nodes
 <p align="left">
 <img src="https://kubernetes.io/images/favicon.png" width="50">
 </p>
-
->If you have already installed kubeadm long time before, run `apt-get update && apt-get upgrade` to get the latest version of `kubeadm` & `kubelet`.
 
 ## Initializing your control plane
 

@@ -3,8 +3,6 @@
 <img src="https://kubernetes.io/images/favicon.png" width="50">
 </p>
 
->If you have already installed kubeadm long time before, run `apt-get update && apt-get upgrade` to get the latest version of `kubeadm` & `kubelet`.
-
 ## Initializing your control plane
 
 The `control plane` is the machine where the control plane components run, including `etcd` (the cluster database) and the `API Server` (which the `kubectl` command line tool communicates with).

@@ -1,71 +1,69 @@
-# Kubernetes Cluster with Containerd
+# Kubeadm
 <p align="left">
 <img src="https://d33wubrfki0l68.cloudfront.net/e4a8ddb49f07de8b2c2dbbfc7c9bedcfe0816701/600b1/images/kubeadm-stacked-color.png" width="50">
 </p>
 
-*Performing this task on all virtual machines*
+*Thực hiện công việc ở bước này trên tất cả các máy ảo*
 
-`Kubeadm` is a command-line tool for bootstrapping a `Kubernetes cluster`. It is part of the official `Kubernetes distribution` and is designed to simplify the process of setting up a new `Kubernetes cluster`. `Kubeadm` automates many of the tasks involved in setting up a cluster, such as configuring the `control plane components`, generating `TLS certificates`, and setting up the `Kubernetes networking`.
+`Kubeadm` là một command-line tool dùng để khởi tạo một `Kubernetes cluster`. Nó là một bản phân phối chính thức của `Kubernetes` và được thiết kế để đơn giản hóa quá trình thiết lập `Kubernetes cluster`. `Kubeadm` tự động hóa nhiều tác vụ liên quan đến thiết lập `cluster` chẳng hạn như cấu hình `control plane components`, tạo `TLS certificates`, và thiết lập `Kubernetes networking`.
 
->One of the key areas covered in the `Certified Kubernetes Administrator (CKA)` exam is cluster setup, which includes using tools like Kubeadm to bootstrap a new Kubernetes cluster.
+>Một trong những nội dung chính được đề cập trong kỳ thi `Certified Kubernetes Administrator (CKA)` là thiết lập `cluster`, bao gồm việc sử dụng các công cụ như kubeadm để khởi tạo một `Kubernetes cluster` mới.
 
-## Disable swap:
+## Tắt swap space:
 
-You must disable `swap` in order for the `kubelet` to work properly. The discussion about this is in this issue https://github.com/kubernetes/kubernetes/issues/53533
+Bạn phải tắt tính năng `swap` để `kubelet` hoạt động bình thường. Xem thêm thảo luận về điều này trong issue: https://github.com/kubernetes/kubernetes/issues/53533
 
-`Kubelet`, which is the primary node agent that runs on each worker node, assumes that each node has a fixed amount of available memory. If the node starts swapping, the kubelet may experience delays or other issues that can impact the `stability` and `reliability` of the Kubernetes cluster. As a result, Kubernetes recommends that `swap` be **disabled** on each node in the cluster.
+`Kubelet`, là `node agent` chính chạy trên `worker node`, giả sử mỗi `node` có một lượng bộ nhớ khả dụng cố định. Nếu `node` bắt đầu tiến hành [swap](https://web.mit.edu/rhel-doc/5/RHEL-5-manual/Deployment_Guide-en-US/ch-swapspace.html), `kubelet` có thể bị delay hoặc các vấn đề khác ảnh hưởng đến tính `stability` và `reliability` của `Kubernetes cluster`. Chính vì vậy, `Kubernetes` khuyên `swap` nên được **disabled** trên mỗi `node` trong `cluster`.
 
-To disable `swap` on Linux Machines:
+Để tắt `swap` trên máy Linux, sử dụng:
 
-    # First diasbale swap
+    # Đầu tiên là tắt swap
     sudo swapoff -a
 
-    # And then to disable swap on startup in /etc/fstab
+    # Sau đó tắt swap mỗi khi khởi động trong /etc/fstab
     sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 
-## Installing kubeadm, kubelet and kubectl :
+## Cài đặt kubeadm, kubelet và kubectl :
 
-You will install these packages on all of your machines:
+* `kubelet`: component chạy trên tất cả các máy trong `cluster` và thực hiện những việc như khởi động các `pod` và `container`.
 
-* `kubelet`: the component that runs on all of the machines in your cluster and does things like starting pods and containers.
+* `kubectl`: command line tool dùng để nói chuyện với `cluster`.
 
-* `kubectl`: the command line util to talk to your cluster.
+* `kubeadm`: công cụ cài đặt các component còn lại của `kubernetes cluster`.
 
-* `kubeadm`: the command to bootstrap the cluster. (install the rest components for `kubernetes cluster`)
+`kubeadm` sẽ không cài đặt `kubelet` hay `kubectl` cho bạn, vì vậy hãy đảm bảo chúng sử dụng các phiên bản phù hợp với các `component` khác trong `Kubernetes control plane` mà `kubeadm` cài cho bạn.
 
-`kubeadm` will not install or manage `kubelet` or `kubectl` for you, so you will need to ensure they match the version of the `Kubernetes control plane` you want `kubeadm` to install for you.
+>Cảnh báo: Hướng dẫn này sẽ loại bỏ các `Kubernetes packages` ra khỏi mọi tiến trình system upgrade. Do `kubeadm` và `Kubernetes` cần được đặc biệt chú ý mỗi khi upgrade.
 
->Warning: These instructions exclude all Kubernetes packages from any system upgrades. This is because kubeadm and Kubernetes require special attention to upgrade.
-
-For more information on version skews, see:
+Để biết thêm thông tin về việc các phiên bản lệch nhau được hỗ trợ hãy xem:
 
 * Kubernetes [version and version-skew policy](https://kubernetes.io/releases/version-skew-policy/)
 * Kubeadm-specific [version skew policy](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#version-skew-policy)
 
-##### Update the `apt` package index and install packages needed to use the Kubernetes `apt` repository:
+##### Cập nhật `apt package index` và cài các `package` cần thiết để sử dụng trong `Kubernetes apt repository`:
 
     sudo apt-get update
     sudo apt-get install -y apt-transport-https ca-certificates curl
 
-##### Download the Google Cloud public signing key:
+##### Tải `Google Cloud public signing key`:
 
     sudo mkdir -m 0755 -p /etc/apt/keyrings
     sudo curl -fsSLo /etc/apt/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
 
-##### Add the Kubernetes apt repository:
+##### Thêm `Kubernetes apt repository`:
 
     echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
 
-##### Update apt package index, install kubelet, kubeadm and kubectl, and pin their version:
+##### Cập nhật lại `apt package index`, cài đặt phiên bản mới nhất của `kubelet`, `kubeadm` và `kubectl`, ghim phiên bản hiện tại tránh việc tự động cập nhật:
 
     sudo apt-get update
     sudo apt-get install -y kubelet kubeadm kubectl
     sudo apt-mark hold kubelet kubeadm kubectl
 
-The kubelet is now restarting every few seconds, as it waits in a crashloop for kubeadm to tell it what to do.
+`kubelet` sẽ tự động khởi động lại mỗi giây vì ở trạng thái crashloop, đợi `kubeadm` đưa ra yêu cầu cần thực hiện.
 
->Node: 🔐 The client certificates generated by kubeadm will be expired after 1 year. See [here](https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-certs/) for more details about custom or renewals certificates.
+>Ghi chú: 🔐 `Client certificates` được tạo bởi `kubeadm` sẽ bị hết hạn sau `1 year`. Đọc thêm ở [đây](https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-certs/) để biết thêm về cách tùy chỉnh và làm mới `certificates`.
 
-## Next
+## Tiếp theo
 
-▶️ [Boostrapping control plane and nodes](Boostrapping-control-plane-and-nodes.md/#boostraping-control-plane-and-nodes)
+▶️ [Khởi động control plane và nodes](Boostrapping-control-plane-and-nodes.md/#boostraping-control-plane-and-nodes)
