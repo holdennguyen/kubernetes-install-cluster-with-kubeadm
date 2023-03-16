@@ -8,7 +8,7 @@
 </h1>
 
 <h4 align="center">🦖 Detail explain step-by-step for beginner.</h4>
-<p align="center">Reference to K8s documentation - section <a href="https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/" target="_blank">Bootstrapping clusters with kubeadm.</a><br>This tutorial walks you through setting up Kubernetes Cluster on a local machine using VirtualBox.<br>We will use Vagrant to automate provisioning VirtualBox's VM.</p>
+<p align="center">Reference to K8s documentation - section <a href="https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/" target="_blank">Bootstrapping clusters with kubeadm.</a><br>This tutorial walks you through setting up Kubernetes Cluster on a local machine using VirtualBox.<br>We will use Vagrant to automate the provisioning of VirtualBox's VM.</p>
 
 <p align="center">
   <a href="https://www.vagrantup.com/" target="_blank">
@@ -47,6 +47,6 @@
 
 * ▶️ [Provision VirtualBox's VM with Vagrant](docs/en/Provision-VirtualBoxVM-with-Vagrant.md)
 * ▶️ [Installing a container runtime (containerd) on all virtual machines](docs/en/Installing-a-container-runtime.md)
-* ▶️ [Installing kubeadm, kubelet and kubectl on all virtual machines](docs/en/Installing-kubeadm-kubelet-kubectl.md)
+* ▶️ [Installing kubeadm, kubelet, and kubectl on all virtual machines](docs/en/Installing-kubeadm-kubelet-kubectl.md)
 * ▶️ [Bootstrapping control plane and nodes](docs/en/Boostrapping-control-plane-and-nodes.md)
-* ▶️ [Clean up environment](docs/en/Clean-up-environment.md)
+* ▶️ [Clean up the environment](docs/en/Clean-up-environment.md)
