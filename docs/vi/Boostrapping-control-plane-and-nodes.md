@@ -220,6 +220,7 @@ Lệnh này sẽ cho phép bạn chỉnh sửa tệp YAML của `weave-net daemo
                     env:
                     - name: IPALLOC_RANGE
                       value: 10.244.0.0/16
+                      ...
                     name: weave
 
 Lưu tệp và đợi một vài phút để `weave-net daemon set` khởi động lại các `pod`.
