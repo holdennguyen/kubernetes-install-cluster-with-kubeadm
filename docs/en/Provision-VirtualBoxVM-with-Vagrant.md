@@ -1,13 +1,13 @@
-# Vagrant
+# Provision Virtual Box’s VM with Vagrant
 <p align="left">
 <img src="/docs/images/vagrant-logo.png" width="50">
 </p>
 
-`Vagrant` is a tool for creating and managing virtual machine environments. It is often considered a form of `Infrastructure as Code (IaC)`, as it allows us to define and manage our infrastructure using code. However, it is important to note that Vagrant is primarily a tool for managing virtual machine environments, and is not typically used for managing production infrastructure.
+`Vagrant` is a tool for creating and managing virtual machine environments. It is often considered a form of `Infrastructure as Code (IaC)`, as it allows us to define and manage our infrastructure using code. However, it is essential to note that Vagrant is primarily a tool for managing virtual machine environments, and is not typically used for managing production infrastructure.
 
 ## Quick Start
 
-For the quick-start, we'll bring up virtual machines on `VirtualBox` because it is free and works on all major platforms.
+For a quick start, we'll bring up virtual machines `VirtualBox` because it is free and works on all major platforms.
 
 First, download and install the [VirtualBox](https://www.virtualbox.org/wiki/Download_Old_Builds), [Vagrant](https://www.vagrantup.com/downloads.html) on your host.
 
@@ -89,15 +89,15 @@ We will build our virtual environment from `Vagrantfile`. Clone this repo or jus
     end
     end
 
-In this Vagrantfile, we simply specify: 
-- Number of virtual machines: `NUM_MASTER_NODE`, `NUM_WORKER_NODE`
+In this Vagrantfile, we specify: 
+- A number of virtual machines: `NUM_MASTER_NODE`, `NUM_WORKER_NODE`
 - IP address: `IP_NW`, `MASTER_IP_START`, `NODE_IP_START`
 - Private networking connectivity: `node.vm.network`
 - Unique hostname: `node.vm.hostname`
 - Operating system: `config.vm.box`
 - System resources: `vb.memory`, `vb.cpus`
 
-The syntax of Vagrantfile is [Ruby](https://www.ruby-lang.org/en/), but knowledge of the `Ruby programming language` is not necessary to make modifications to the `Vagrantfile`. See [here](https://developer.hashicorp.com/vagrant/docs/vagrantfile) for more information about `Vagrantfile syntax`.
+The syntax of Vagrantfile is [Ruby](https://www.ruby-lang.org/en/), but knowledge of it is not necessary to make modifications to the `Vagrantfile`. See [here](https://developer.hashicorp.com/vagrant/docs/vagrantfile) for more information about `Vagrantfile syntax`.
 
 ## Start provisioning
 
@@ -105,7 +105,7 @@ Run the command:
 
     vagrant up
 
-Output should be simillar:
+The output should be similar:
 
     Bringing machine 'kubemaster' up with 'virtualbox' provider...
     Bringing machine 'kubenode01' up with 'virtualbox' provider...
@@ -248,20 +248,20 @@ It will show your virtual machines which be managed by vagrant
 
 #### Issue: vagrant up times out on 'default: SSH auth method: private key' 
 
-This issue happened when failed to boot virtual machine. By default, VirtualBox uses a TSC mode called "RealTscOffset," which adjusts the TSC value on the guest machine to compensate for any time differences between the host and guest. 
+This issue happened when failed to boot the virtual machine. By default, VirtualBox uses a TSC mode called "RealTscOffset," which adjusts the TSC value on the guest machine to compensate for any time differences between the host and guest. 
 If you're using `Windows` and already have `Hyper-V`, you must disable `Hyper-V` to avoid conflict with `Virtual Box` which could lead to `vagrant up` time out. 
 
 To disable `Hyper-V` completely, enter the following command in cmd:
 
     bcdedit /set hypervisorlaunchtype off
 
-followed by turn off & turn on machine. 
+followed by turning off & turn on the machine. 
 
 >Note that `bcdedit` is short for `boot configuration data edit`, i.e. it affects what software will be loaded on the next OS boot, so it is essential that you perform a full boot from a complete power down (not a suspend and restart) in order for the changes to take effect. Leave the PC powered down for `10 seconds` before starting it again. If your PC does not offer a full shutdown from the start menu you could try running `shutdown /p` from an admin command prompt. On a laptop you may have to remove the battery.
 
-Reinstall `Vagrant` & `Virtual Box`. If issue is still exist, you might have to reinstall `Windows OS`!
+Reinstall `Vagrant` & `Virtual Box`. If the issue still exists, you might have to reinstall `Windows OS`!
 
-## Remote to virtual machine with Vagrant
+## Remote to a virtual machine with Vagrant
 
 Just run the commands: 
 
@@ -269,11 +269,11 @@ Just run the commands:
 
 ![Vagrant SSH in VSCode](../images/vagrant-ssh-vscode.png)
 
-As you can see in the output of `vagrant up`, Vagrant had fowarded port 22 and generated keypairs for each machine without ssh configuration in `Vagrantfile`. 
-For more information you can see [Vagrant Share: SSH Sharing](https://developer.hashicorp.com/vagrant/docs/share/ssh) and [Vagrantfile: config.ssh](https://developer.hashicorp.com/vagrant/docs/vagrantfile/ssh_settings).
+As you can see in the output of `vagrant up`, Vagrant had forwarded port 22 and generated keypairs for each machine without ssh configuration in `Vagrantfile`. 
+For more information, you can see [Vagrant Share: SSH Sharing](https://developer.hashicorp.com/vagrant/docs/share/ssh) and [Vagrantfile: config.ssh](https://developer.hashicorp.com/vagrant/docs/vagrantfile/ssh_settings).
 
 Then you're good to go!
 
 ## Next
 
-▶️ [Installing a container runtime (containerd) on all virtual machines](Installing-a-container-runtime.md)
+▶️ [Installing a container runtime (containerd) on all virtual machines](Installing-a-container-runtime.md/#installing-a-container-runtime-containerd-on-all-virtual-machines)

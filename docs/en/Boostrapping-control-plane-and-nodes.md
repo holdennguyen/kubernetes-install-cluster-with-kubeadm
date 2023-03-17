@@ -1,4 +1,4 @@
-# Boostraping control plane and nodes
+# Bootstrapping control plane and nodes
 <p align="left">
 <img src="https://kubernetes.io/images/favicon.png" width="50">
 </p>
@@ -11,8 +11,8 @@ To initialize the control plane, run this command in your virtual machine hostna
 
     sudo kubeadm init --apiserver-advertise-address=192.168.56.2 --pod-network-cidr=10.244.0.0/16
  
-* `--apiserver-advertise-address=192.168.56.2`: The IP address the API Server will advertise it's listening on. In this tutorial we will use IP address of `kubemaster` vm.
-* `--pod-network-cidr=10.244.0.0/16`: the control plane will automatically allocate CIDRs for every node which specifies a range of IP addresses that can be used for pod IPs. **You may need to choose a CIDR range that is not overlap with any existing network ranges to avoid IP address conflicts**.
+* `--apiserver-advertise-address=192.168.56.2`: The IP address the API Server will advertise its listening on. In this tutorial, we will use the IP address of `kubemaster` VM.
+* `--pod-network-cidr=10.244.0.0/16`: the control plane will automatically allocate CIDRs for every node which specifies a range of IP addresses that can be used for pod IPs. **You may need to choose a CIDR range that does not overlap with any existing network ranges to avoid IP address conflicts**.
 
 `kubeadm init` first runs a series of prechecks to ensure that the machine is ready to run `Kubernetes`. These prechecks expose warnings and exit on errors. `kubeadm init` then downloads and installs the cluster control plane components. This may take several minutes. After it finishes you should see:
 
@@ -33,7 +33,7 @@ To initialize the control plane, run this command in your virtual machine hostna
 
     kubeadm join <control-plane-host>:<control-plane-port> --token <token> --discovery-token-ca-cert-hash sha256:<hash>
 
-**Save the command `kubeadm join...` to join the nodes into cluster later**.
+**Save the command `kubeadm join...` to join the nodes into the cluster later**.
 
 To make `kubectl` work for your `non-root user`, run these commands, which are also part of the `kubeadm init` output:
 
@@ -54,7 +54,7 @@ Run the command that was output by `kubeadm init` on all worker nodes - virtual 
 
     sudo kubeadm join --token <token> <control-plane-host>:<control-plane-port> --discovery-token-ca-cert-hash sha256:<hash>
 
-**If you lost the output command above, go to the control-plane: `kubemaster`.**
+**If you lost the output command above, go to the control plane: `kubemaster`.**
 
 **Get the `<token>` by running**
 
@@ -95,9 +95,9 @@ The output is similar to:
 
 **`<control-plane-host>:<control-plane-port>`** will be **`192.168.56.2:6443`**
 
-**Node join to Kubernetes cluster successful**
+**Node join to Kubernetes cluster successfully**
 
-The output should look something like:
+The output should look something like this:
 
     [preflight] Running pre-flight checks
 
@@ -120,7 +120,7 @@ On control-plane `kubemaster` and worker nodes `kubenode01`, `kubenode02` run
 
     sudo netstat -lntp
 
-All components with LISTEN ports will be shown as below:
+All components with LISTEN ports will be shown below:
 
 **kubemaster** 
 
@@ -160,7 +160,7 @@ For example, the IPv4 address `192.168.5.2` can be represented as the IPv6 addre
 
 ## Installing a Pod network add-on
 
-Run `kubectl get nodes` on control-plane to see this joined nodes
+Run `kubectl get nodes` on control-plane to see these joined nodes
 
     NAME           STATUS     ROLES           AGE    VERSION
     kubemaster     NotReady   control-plane   3h1m   v1.26.2
@@ -182,15 +182,15 @@ Run `kubectl get pods -A` on control plane to see all pods of `kube-system`
     kube-system   kube-proxy-v9rc6                       1/1     Running   0          3h8m
     kube-system   kube-scheduler-controlplane            1/1     Running   0          3h9m
 
-You must deploy a `Container Network Interface (CNI)` based `Pod network add-on` so that your Pods can communicate with each other. `Cluster DNS (CoreDNS)` will not start up untill the pod networking is configured.
+You must deploy a `Container Network Interface (CNI)` based `Pod network add-on` so that your Pods can communicate with each other. `Cluster DNS (CoreDNS)` will not start up until the pod networking is configured.
 
 `Pod network add-ons` are `Kubernetes-specific CNI plugins` that provide **network connectivity between pods** in a `Kubernetes cluster`. They create a `virtual network overlay` that spans the entire cluster and provides each `pod` with its own `unique IP address`.
 
 While `CNI plugins` can be used with any container runtime, pod network add-ons are specific to Kubernetes and provide the networking functionality required for the Kubernetes networking model. Some examples of pod network add-ons include `Calico`, `Flannel`, and `Weave Net`.
 
-In this tutorial, we will use [Weave Net](https://www.weave.works/docs/net/latest/kubernetes/kube-addon/) add-ons. It is easier to set up, use and is a good fit for smaller-scale deployments.
+In this tutorial, we will use [Weave Net](https://www.weave.works/docs/net/latest/kubernetes/kube-addon/) add-ons. It is easier to set up, and use and is a good fit for smaller-scale deployments.
 
-To install onto Kubernetes cluster, run the following command on control plane `kubemaster`:
+To install onto the Kubernetes cluster, run the following command on the control plane `kubemaster`:
 
     kubectl apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s.yaml
 
@@ -204,11 +204,11 @@ Output will be
     daemonset.apps/weave-net created
 
 Take care that your Pod network must not overlap with any of the machine networks. If you define a `CIDR block` during `kubeadm init` with `--pod-network-cidr`, insert parameter `IPALLOC_RANGE` in `Weaver network plugin's YAML`.
-Run this command on control plane `kubemaster`:
+Run this command on the control plane `kubemaster`:
 
     kubectl edit ds weave-net -n kube-system
 
-It will open allow you to edit the yaml file of `weave-net daemon set`. Find `spec` of `container` name `weave` to add environment variable `IPALLOC_RANGE`, value is `--pod-network-cidr`
+It will open allowing you to edit the YAML file of `weave-net daemon set`. Find `spec` of `container` name `weave` to add an environment variable `IPALLOC_RANGE`, value is `--pod-network-cidr`
 
     spec:
     ...
@@ -223,11 +223,11 @@ It will open allow you to edit the yaml file of `weave-net daemon set`. Find `sp
                       value: 10.244.0.0/16
                     name: weave
 
-Save file and wait few minutes for `weave-net` pods rebooting.
+Save the file and wait a few minutes for `weave-net` pods rebooting.
 
 ## Successful 
 
-Run `kubectl get pods -A` on control plane again to verify, you will see 3 pods of `weave-net daemon set` and the `coredns` pods are running now:
+Run `kubectl get pods -A` on the control plane again to verify, you will see 3 pods of `weave-net daemon set` and the `coredns` pods are running now:
 
     NAMESPACE     NAME                                 READY   STATUS    RESTARTS   AGE
     kube-system   coredns-787d4945fb-48tbh             1/1     Running   0          6m57s
@@ -243,7 +243,7 @@ Run `kubectl get pods -A` on control plane again to verify, you will see 3 pods 
     kube-system   weave-net-dk5dl                      2/2     Running   0          70s
     kube-system   weave-net-znhnm                      2/2     Running   0          2m
 
-Run `kubectl get nodes` to verify status of cluster, all nodes are ready now:
+Run `kubectl get nodes` to verify the status of the cluster, all nodes are ready now:
 
     NAME         STATUS   ROLES           AGE     VERSION
     kubemaster   Ready    control-plane   9m54s   v1.26.2
@@ -254,6 +254,6 @@ Run `kubectl get nodes` to verify status of cluster, all nodes are ready now:
 
 Networking is a central part of Kubernetes, see [Kubernetes networking model](https://kubernetes.io/docs/concepts/cluster-administration/networking/#how-to-implement-the-kubernetes-networking-model) for more information.
 
-For more option to customize the cluster with kubeadm, read [Create cluster kubeadm](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/).
+For more options to customize the cluster with kubeadm, read [Create cluster kubeadm](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/).
 
 ▶️ [Clean up your environment](Clean-up-environment.md/#clean-up-environment)

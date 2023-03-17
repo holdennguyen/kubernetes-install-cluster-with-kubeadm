@@ -1,11 +1,11 @@
-# Clean up environment
+# Clean up the environment
 <p align="left">
 <img src="/docs/images/cleaning.png" width="70">
 </p>
 
 Unsolved issue or just want to start over, this guide is for you!
 
-## Keep virtual machine, just clean up Kubernetes cluster
+## Keep the virtual machine, just clean up the Kubernetes cluster
 
 #### Remove the node
 
@@ -33,7 +33,7 @@ If you wish to start over, run `kubeadm init` or `kubeadm join` with the appropr
 
 #### Clean up the control plane
 
-Performs a best effort revert of changes made to this host by `kubeadm init`
+Performs a best-effort revert of changes made to this host by `kubeadm init`
 
     sudo kubeadm reset --kubeconfig="/etc/kubernetes/admin.conf"
 
@@ -41,9 +41,9 @@ Performs a best effort revert of changes made to this host by `kubeadm init`
 
 The reset process does not reset or clean up iptables rules or IPVS tables. If you wish to reset iptables, you must do so manually as we do in [Remove the node](#remove-the-node).
 
-## Dispose all virtual machines
+## Dispose of all virtual machines
 
-Since we use `Vagrant` to automate provisioning the virtual machines, you can dispose all that with just a command. Run this in project directory of your host, which install `Vagrant` & `Virtual Box`:
+Since we use `Vagrant` to automate provisioning the virtual machines, you can dispose of all that with just a command. Run this in the project directory of your host, which installs `Vagrant` & `Virtual Box`:
 
     vagrant destroy
 
