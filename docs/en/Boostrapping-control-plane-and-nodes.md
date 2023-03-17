@@ -221,6 +221,7 @@ It will open allowing you to edit the YAML file of `weave-net daemon set`. Find 
                     env:
                     - name: IPALLOC_RANGE
                       value: 10.244.0.0/16
+                      ...
                     name: weave
 
 Save the file and wait a few minutes for `weave-net` pods rebooting.
