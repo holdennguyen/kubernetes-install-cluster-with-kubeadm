@@ -113,7 +113,7 @@ Since our virtual machine use **systemd**, we will configure `kubelet` and `cont
 
 #### Configuring the `containerd` cgroup driver
 
->By default, image `containerd.io` of Docker use the `systemd` cgroup driver, if you install containerd from its original binaries, maybe you have to modify file `config.toml` as above
+>By default, image `containerd.io` of Docker use the `systemd` cgroup driver, if you install containerd from its original binaries, you will have to modify file `config.toml` as below
 
 To config `containerd` use the `systemd` cgroup driver, run:
 
