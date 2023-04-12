@@ -123,6 +123,8 @@ replace all context of `config.toml` file with the setting below:
         [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
             SystemdCgroup = true
 
+>By default, image `containerd.io` of Docker use the `systemd` cgroup driver, if you install containerd from its original binaries, maybe you have to modify file `config.toml` as above
+
 make sure to restart `containerd` to apply this change
 
     sudo systemctl restart containerd
